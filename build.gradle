@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '2.0.0'
+}
+
+dependencies {
+    compile "junit:junit:4.+"
+}
+
+repositories {
+    mavenCentral()
+}
+
+tasks.withType(Jar) {
+    destinationDir = file("$rootDir/libs")
+}
+
+shadowJar {
+    baseName = 'app.deps'
+    classifier = null
+    version = null
+}
