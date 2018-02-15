@@ -1,0 +1,59 @@
+package com.fonoster.sipio.ctl;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.inamik.text.tables.GridTable;
+import com.inamik.text.tables.SimpleTable;
+import com.inamik.text.tables.grid.Border;
+import com.inamik.text.tables.grid.Util;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import net.sourceforge.argparse4j.inf.Subparsers;
+
+import java.util.Iterator;
+
+import static java.lang.System.out;
+
+public class CmdLocate {
+
+    public CmdLocate(Subparsers subparsers) {
+        subparsers.addParser("locate").aliases("loc").help("locate sip device(s)");
+    }
+
+    void run() throws UnirestException {
+        CtlUtils ctlUtils = new CtlUtils();
+        String result = ctlUtils.getWithToken("location", "");
+        Gson gson = new Gson();
+        JsonArray locEntries = gson.fromJson(result, JsonArray.class);
+
+        SimpleTable textTable = SimpleTable.of()
+            .nextRow()
+            .nextCell().addLine("ADDRESS OF RECORD")
+            .nextCell().addLine("CONTACT INFO");
+
+        int cnt = 0;
+
+        Iterator i = locEntries.iterator();
+
+        while(i.hasNext()) {
+            JsonElement je = (JsonElement) i.next();
+            JsonObject entry = je.getAsJsonObject();
+            String aor = entry.get("addressOfRecord").getAsString();
+            String contactInfo = entry.get("contactInfo").getAsString();
+
+            textTable.nextRow()
+                    .nextCell().addLine(aor)
+                    .nextCell().addLine(contactInfo);
+            cnt++;
+        }
+
+        if (cnt > 0) {
+            GridTable grid = textTable.toGrid();
+            grid = Border.DOUBLE_LINE.apply(grid);
+            Util.print(grid);
+        } else {
+            out.print("No registered devices at this time.");
+        }
+    }
+}

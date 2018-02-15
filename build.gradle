@@ -4,6 +4,12 @@ plugins {
 }
 
 dependencies {
+    compile "com.mashape.unirest:unirest-java:1.4.9"
+    compile "net.sourceforge.argparse4j:argparse4j:0.8.1"
+    compile "com.github.steveash.itxttbl:inamik-text-tables:0.1"
+    compile "com.google.code.gson:gson:2.8.2"
+    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.8.3"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.8.6"
     compile "junit:junit:4.+"
 }
 
@@ -15,8 +21,5 @@ tasks.withType(Jar) {
     destinationDir = file("$rootDir/libs")
 }
 
-shadowJar {
-    baseName = 'app.deps'
-    classifier = null
-    version = null
-}
+apply plugin:'application'
+mainClassName = "com.fonoster.sipio.ctl.Main"
