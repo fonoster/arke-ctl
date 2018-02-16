@@ -23,7 +23,7 @@ public class CmdGetAgents {
 
     static public void printAgents(String ref, String filter) throws UnirestException {
         CtlUtils ctlUtils = new CtlUtils();
-        String result = ctlUtils.getWithToken("agents", "filter=" + filter);
+        String result = ctlUtils.getWithToken("agents", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
         JsonArray agents = gson.fromJson(result, JsonArray.class);
 
@@ -45,10 +45,8 @@ public class CmdGetAgents {
             JsonObject spec = agent.getAsJsonObject("spec");
             JsonObject credentials = spec.getAsJsonObject("credentials");
             String username = credentials.get("username").getAsString();
-            String idPostfix = (spec.getAsJsonArray("domains").get(0).getAsString().toString().hashCode()
-                    + "").substring(6);
-            String genRef = username + '-' + idPostfix;
             String name = metadata.get("name").getAsString();
+            String genRef = metadata.get("ref").getAsString();
 
             List<String> d = gson.fromJson(spec.getAsJsonArray("domains"), List.class);
             String domains = String.join(",", d);

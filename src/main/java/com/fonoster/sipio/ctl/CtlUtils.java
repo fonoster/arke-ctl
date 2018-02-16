@@ -17,7 +17,7 @@ import java.security.cert.X509Certificate;
 
 public class CtlUtils {
     private final static String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiJ9.S7c6sLg7MvF2iPN4XksXQ4O6TIl-ln8Y8fqXPWgEj8pGQqHNFFXHOec-RqBUGiXKuWXlf_TSlZVfo2xy7AUhLg";
-    private final static String baseUrl = "https://localhost:4567";
+    private final static String baseUrl = "https://127.0.0.1:4567";
 
     // Warn: This should be be a parameter (--insecure?)
     static {
@@ -47,9 +47,9 @@ public class CtlUtils {
         }
     }
 
-    public String getWithToken(String resource, String params) throws UnirestException {
+    public HttpResponse getWithToken(String resource, String params) throws UnirestException {
         HttpResponse<JsonNode> result = Unirest.get(baseUrl + "/" + resource + "?token=" + token + "&" + params).asJson();
-        return result.getBody().toString();
+        return result;
     }
 
     public HttpResponse postWithToken(String resource, String data) throws UnirestException {
@@ -64,5 +64,16 @@ public class CtlUtils {
         return result;
     }
 
+    public HttpResponse putWithToken(String resource, String data) throws UnirestException {
+        HttpResponse result;
+
+        if (!data.isEmpty()) {
+            result = Unirest.put(this.baseUrl + "/" + resource + "?token=" + token).body(data).asString();
+        } else {
+            result = Unirest.put(this.baseUrl + "/" + resource + "?token=" + token).asString();
+        }
+
+        return result;
+    }
 }
 

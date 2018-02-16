@@ -23,6 +23,8 @@ public class Main {
 
         CmdGet cmdGet = new CmdGet(subparsers);
         CmdCreate cmdCreate = new CmdCreate(subparsers);
+        CmdApply cmdApply = new CmdApply(subparsers);
+        CmdDelete cmdDelete = new CmdDelete(subparsers);
         CmdLocate cmdLocate = new CmdLocate(subparsers);
         CmdRegistry cmdRegistry = new CmdRegistry(subparsers);
 
@@ -42,6 +44,13 @@ public class Main {
                 case "create":
                 case "crea":
                     cmdCreate.run(res.get("f"));
+                    break;
+                case "apply":
+                    cmdApply.run(res.get("f"));
+                    break;
+                case "delete":
+                case "del":
+                    cmdDelete.run(res.get("f"));
                     break;
                 case "get":
                     cmdGet.run(res.get("resource"), res.get("REF"), res.get("filter"));

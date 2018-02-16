@@ -23,7 +23,7 @@ public class CmdRegistry {
 
     void run() throws UnirestException {
         CtlUtils ctlUtils = new CtlUtils();
-        String result = ctlUtils.getWithToken("registry", "");
+        String result = ctlUtils.getWithToken("registry", "").getBody().toString();
         Gson gson = new Gson();
         JsonArray registries = gson.fromJson(result, JsonArray.class);
 

@@ -22,7 +22,7 @@ public class CmdGetPeers {
 
     static public void printPeers(String ref, String filter) throws UnirestException {
         CtlUtils ctlUtils = new CtlUtils();
-        String result = ctlUtils.getWithToken("peers", "filter=" + filter);
+        String result = ctlUtils.getWithToken("peers", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
         JsonArray peers = gson.fromJson(result, JsonArray.class);
 
@@ -30,6 +30,7 @@ public class CmdGetPeers {
             .nextRow()
             .nextCell().addLine("REF")
             .nextCell().addLine("USERNAME")
+            .nextCell().addLine("NAME")
             .nextCell().addLine("DEVICE NAME");
 
         int cnt = 0;
@@ -44,6 +45,7 @@ public class CmdGetPeers {
             JsonObject credentials = spec.getAsJsonObject("credentials");
             String username = credentials.get("username").getAsString();
             String name = metadata.get("name").getAsString();
+            String objRef = metadata.get("ref").getAsString();
             String device = "";
 
             try {
@@ -57,6 +59,7 @@ public class CmdGetPeers {
                 if (!device.isEmpty()) deviceName = device;
 
                 textTable.nextRow()
+                    .nextCell().addLine(objRef)
                     .nextCell().addLine(username)
                     .nextCell().addLine(name)
                     .nextCell().addLine(deviceName);

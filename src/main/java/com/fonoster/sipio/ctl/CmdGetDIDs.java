@@ -22,7 +22,7 @@ public class CmdGetDIDs {
 
     static public void printDIDs(String ref, String filter) throws UnirestException {
         CtlUtils ctlUtils = new CtlUtils();
-        String result = ctlUtils.getWithToken("dids", "filter=" + filter);
+        String result = ctlUtils.getWithToken("dids", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
         JsonArray dids = gson.fromJson(result, JsonArray.class);
 
@@ -47,13 +47,13 @@ public class CmdGetDIDs {
             JsonObject location = spec.getAsJsonObject("location");
             String telUrl = location.get("telUrl").getAsString();
             String aorLink = location.get("aorLink").getAsString();
-            String metaRef = metadata.get("ref").getAsString();
+            String objRef = metadata.get("ref").getAsString();
             String gwRef = metadata.get("gwRef").getAsString();
             String city = geoInfo.get("city").getAsString();
 
-            if (ref.isEmpty() || ref.equals(metaRef)) {
+            if (ref.isEmpty() || ref.equals(objRef)) {
                 textTable.nextRow()
-                    .nextCell().addLine(metaRef)
+                    .nextCell().addLine(objRef)
                     .nextCell().addLine(gwRef)
                     .nextCell().addLine(telUrl)
                     .nextCell().addLine(aorLink)

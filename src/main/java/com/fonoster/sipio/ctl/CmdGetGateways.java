@@ -23,7 +23,7 @@ public class CmdGetGateways {
 
     static public void printGateways(String ref, String filter) throws UnirestException {
         CtlUtils ctlUtils = new CtlUtils();
-        String result = ctlUtils.getWithToken("gateways", "filter=" + filter);
+        String result = ctlUtils.getWithToken("gateways", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
         JsonArray gateways = gson.fromJson(result, JsonArray.class);
 

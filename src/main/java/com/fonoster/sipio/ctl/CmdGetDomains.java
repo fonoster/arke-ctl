@@ -22,7 +22,7 @@ public class CmdGetDomains {
 
     static public void printDomains(String ref, String filter) throws UnirestException {
         CtlUtils ctlUtils = new CtlUtils();
-        String result = ctlUtils.getWithToken("domains", "filter=" + filter);
+        String result = ctlUtils.getWithToken("domains", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
         JsonArray domains = gson.fromJson(result, JsonArray.class);
 
@@ -30,6 +30,7 @@ public class CmdGetDomains {
             .nextRow()
             .nextCell().addLine("REF")
             .nextCell().addLine("NAME")
+            .nextCell().addLine("URI")
             .nextCell().addLine("EGRESS POLICY")
             .nextCell().addLine("ACL");
 
@@ -43,8 +44,9 @@ public class CmdGetDomains {
             JsonObject metadata = domain.getAsJsonObject("metadata");
             JsonObject spec = domain.getAsJsonObject("spec");
             JsonObject context = spec.getAsJsonObject("context");
+            String domainUri = context.get("domainUri").getAsString();
             String name = metadata.get("name").getAsString();
-            String metaRef = context.get("domainUri").getAsString();
+            String objRef = metadata.get("ref").getAsString();
 
             String egressPolicy = "{}";
             String accessControlList = "{}";
@@ -57,10 +59,11 @@ public class CmdGetDomains {
                 accessControlList = context.get("accessControlList").toString();
             } catch(NullPointerException ex) {}
 
-            if (ref.isEmpty() || ref.equals(metaRef)) {
+            if (ref.isEmpty() || ref.equals(objRef)) {
                 textTable.nextRow()
-                    .nextCell().addLine(metaRef)
+                    .nextCell().addLine(objRef)
                     .nextCell().addLine(name)
+                    .nextCell().addLine(domainUri)
                     .nextCell().addLine(egressPolicy)
                     .nextCell().addLine(accessControlList);
                 cnt++;

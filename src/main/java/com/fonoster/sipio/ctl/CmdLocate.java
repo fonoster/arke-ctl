@@ -23,7 +23,7 @@ public class CmdLocate {
 
     void run() throws UnirestException {
         CtlUtils ctlUtils = new CtlUtils();
-        String result = ctlUtils.getWithToken("location", "");
+        String result = ctlUtils.getWithToken("location", "").getBody().toString();
         Gson gson = new Gson();
         JsonArray locEntries = gson.fromJson(result, JsonArray.class);
 

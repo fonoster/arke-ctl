@@ -13,19 +13,19 @@ import java.util.Iterator;
 
 import static java.lang.System.out;
 
-public class CmdCreate {
+public class CmdDelete {
 
-    public CmdCreate(Subparsers subparsers) {
-        Subparser create = subparsers.addParser("create").aliases("crea").help("creates new resource(s)");
-        create.addArgument("-f").metavar("FILE").help("path to yaml file with a resources(s)");
+    public CmdDelete(Subparsers subparsers) {
+        Subparser apply = subparsers.addParser("apply").help("apply changes over existing resource(s)");
+        apply.addArgument("-f").metavar("FILE").help("path to yaml file with a resources(s)");
 
-        create.epilog(String.join(
+        apply.epilog(String.join(
             System.getProperty("line.separator"),
             "`Examples:",
-            "\t# Creates a new agent from a yaml file",
-            "\t$ sipioctl -- crea -f agent.yaml\n\n",
-            "\t# Creates a set of gateways from a yaml file\n",
-            "\t$ sipioctl -- create -f gws.yaml\n"
+            "\t# Apply changes to an existing agent",
+            "\t$ sipioctl -- apply -f agent.yaml\n\n",
+            "\t# Updates a set of gateways\n",
+            "\t$ sipioctl -- apply -f gws.yaml\n"
         ));
     }
 
@@ -58,19 +58,24 @@ public class CmdCreate {
         if(jo.isJsonArray()) {
             Iterator i = jo.getAsJsonArray().iterator();
 
+            // Fixme: Put verb uses a different endpoint...
             while(i.hasNext()) {
                 JsonElement je = ((JsonElement) i.next());
                 JsonObject resource = je.getAsJsonObject();
+                JsonObject metadata = resource.get("metadata").getAsJsonObject();
+                String ref = metadata.get("ref").getAsString();
                 String kind = resource.get("kind").getAsString();
                 kind = kind.toLowerCase() + "s";
-                HttpResponse result = ctlUtils.postWithToken(kind, data);
+                HttpResponse result = ctlUtils.putWithToken(kind + "/" + ref, data);
                 String message = gson.fromJson(result.getBody().toString(), JsonObject.class).get("message").getAsString();
                 out.println(message);
             }
         } else {
             String kind = jo.getAsJsonObject().get("kind").getAsString();
+            JsonObject metadata = jo.getAsJsonObject().get("metadata").getAsJsonObject();
+            String ref = metadata.get("ref").getAsString();
             kind = kind.toLowerCase() + "s";
-            HttpResponse result = ctlUtils.postWithToken(kind, data);
+            HttpResponse result = ctlUtils.putWithToken(kind + "/" + ref, data);
             String message = gson.fromJson(result.getBody().toString(), JsonObject.class).get("message").getAsString();
             out.print(message);
         }
