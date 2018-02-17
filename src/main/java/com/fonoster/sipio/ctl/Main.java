@@ -16,8 +16,7 @@ import static java.lang.System.exit;
 import static java.lang.System.out;
 
 public class Main {
-
-    public final static String CONFIG_PATH = System.getProperty("user.home") + "/.sipio-server.json";
+    public final static String CONFIG_PATH = System.getProperty("user.home") + "/.sipio-access.json";
     public final static String INVALID_ACCESS_TOKEN = "Unable to find a valid access token. Please login";
 
     static public void main(String... args) throws UnirestException, IOException {
