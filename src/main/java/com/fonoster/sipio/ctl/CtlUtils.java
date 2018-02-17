@@ -14,10 +14,14 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.security.cert.X509Certificate;
 
+import static java.lang.System.out;
+import static java.lang.System.exit;
 
 public class CtlUtils {
-    private final static String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiJ9.S7c6sLg7MvF2iPN4XksXQ4O6TIl-ln8Y8fqXPWgEj8pGQqHNFFXHOec-RqBUGiXKuWXlf_TSlZVfo2xy7AUhLg";
-    private final static String baseUrl = "https://127.0.0.1:4567";
+    private static String accessToken;
+    private static String apiUrl;
+    private static String username;
+    private static String password;
 
     // Warn: This should be be a parameter (--insecure?)
     static {
@@ -47,45 +51,124 @@ public class CtlUtils {
         }
     }
 
-    public HttpResponse getWithToken(String resource, String params) throws UnirestException {
-        HttpResponse<JsonNode> result = Unirest.get(baseUrl + "/" + resource + "?token=" + token + "&" + params).asJson();
+    public CtlUtils(String apiUrl, String username, String password) {
+        this.apiUrl = apiUrl;
+        this.username = username;
+        this.password = password;
+    }
+
+    public CtlUtils(String apiUrl, String accessToken) {
+        this.apiUrl = apiUrl;
+        this.accessToken = accessToken;
+    }
+
+    public String getToken() {
+        HttpResponse<String> result = null;
+
+        try {
+            result = Unirest.get(apiUrl + "/credentials" ).basicAuth(username, password).asString();
+        } catch (UnirestException ex) {
+            out.println("Unable to perform request. Ensure server is up");
+            exit(1);
+        }
+
+        errorHandling(result);
+
+        return result.getBody().toString();
+    }
+
+    public HttpResponse getWithToken(String resource, String params) {
+        HttpResponse<JsonNode> result = null;
+
+        try {
+            result = Unirest.get(apiUrl + "/" + resource + "?token=" + accessToken + "&" + params).asJson();
+        } catch (UnirestException ex) {
+            if (resource.equals("system/status")) {
+                out.println("Down");
+            } else {
+                out.println("Unable to perform request. Ensure server is up");
+            }
+           exit(1);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        errorHandling(result);
+
         return result;
     }
 
-    public HttpResponse postWithToken(String resource, String data) throws UnirestException {
-        HttpResponse result;
+    public HttpResponse postWithToken(String resource, String data) {
+        HttpResponse result = null;
 
-        if (data != null && !data.isEmpty()) {
-            result = Unirest.post(this.baseUrl + "/" + resource + "?token=" + token).body(data).asString();
-        } else {
-            result = Unirest.post(this.baseUrl + "/" + resource + "?token=" + token).asString();
+        try {
+            if (data != null && !data.isEmpty()) {
+                result = Unirest.post(this.apiUrl + "/" + resource + "?token=" + accessToken).body(data).asString();
+            } else {
+                result = Unirest.post(this.apiUrl + "/" + resource + "?token=" + accessToken).asString();
+            }
+        } catch (UnirestException ex) {
+            if (resource.equals("system/status/down")) {
+                out.println("Down");
+            } else {
+                out.println("Unable to perform request. Ensure server is up");
+            }
+            exit(1);
         }
+
+        errorHandling(result);
 
         return result;
     }
 
-    public HttpResponse putWithToken(String resource, String data) throws UnirestException {
-        HttpResponse result;
+    public HttpResponse putWithToken(String resource, String data) {
+        HttpResponse result = null;
 
-        if (data != null && !data.isEmpty()) {
-            result = Unirest.put(this.baseUrl + "/" + resource + "?token=" + token).body(data).asString();
-        } else {
-            result = Unirest.put(this.baseUrl + "/" + resource + "?token=" + token).asString();
+        try {
+            if (data != null && !data.isEmpty()) {
+                result = Unirest.put(this.apiUrl + "/" + resource + "?token=" + accessToken).body(data).asString();
+            } else {
+                result = Unirest.put(this.apiUrl + "/" + resource + "?token=" + accessToken).asString();
+            }
+        } catch (UnirestException ex) {
+            out.println("Unable to perform request. Ensure server is up");
+            exit(1);
         }
+
+        errorHandling(result);
 
         return result;
     }
 
-    public HttpResponse deleteWithToken(String resource, String params, String data) throws UnirestException {
-        HttpResponse result;
+    public HttpResponse deleteWithToken(String resource, String params, String data) {
+        HttpResponse result = null;
 
-        if (data != null && !data.isEmpty()) {
-            result = Unirest.delete(this.baseUrl + "/" + resource + "?token=" + token + "&" + params).body(data).asString();
-        } else {
-            result = Unirest.delete(this.baseUrl + "/" + resource + "?token=" + token + "&" + params).asString();
+        try {
+            if (data != null && !data.isEmpty()) {
+                result = Unirest.delete(this.apiUrl + "/" + resource + "?token=" + accessToken + "&" + params).body(data).asString();
+            } else {
+                result = Unirest.delete(this.apiUrl + "/" + resource + "?token=" + accessToken + "&" + params).asString();
+            }
+        } catch (UnirestException ex) {
+            out.println("Unable to perform request. Ensure server is up");
+            exit(1);
         }
 
+        errorHandling(result);
+
         return result;
+    }
+
+    public void errorHandling(HttpResponse result) {
+        if (result.getStatus() == 404) {
+            out.println("Invalid api url");
+            exit(1);
+        }
+
+        if (result.getStatus() == 401) {
+            out.println(Main.INVALID_ACCESS_TOKEN);
+            exit(1);
+        }
     }
 }
 

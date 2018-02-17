@@ -17,12 +17,14 @@ import static java.lang.System.out;
 
 public class CmdLocate {
 
-    public CmdLocate(Subparsers subparsers) {
+    private static CtlUtils ctlUtils;
+
+    public CmdLocate(Subparsers subparsers, CtlUtils ctlUtils) {
         subparsers.addParser("locate").aliases("loc").help("locate sip device(s)");
+        this.ctlUtils = ctlUtils;
     }
 
     void run() throws UnirestException {
-        CtlUtils ctlUtils = new CtlUtils();
         String result = ctlUtils.getWithToken("location", "").getBody().toString();
         Gson gson = new Gson();
         JsonArray locEntries = gson.fromJson(result, JsonArray.class);

@@ -3,7 +3,6 @@ package com.fonoster.sipio.ctl;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import net.sourceforge.argparse4j.inf.Subparser;
 import net.sourceforge.argparse4j.inf.Subparsers;
 
@@ -12,7 +11,9 @@ import static java.lang.System.out;
 
 public class CmdDelete {
 
-    public CmdDelete(Subparsers subparsers) {
+    private static CtlUtils ctlUtils;
+
+    public CmdDelete(Subparsers subparsers, CtlUtils ctlUtils) {
         String[] delSubCmds = new String[]{"agents", "peer", "peers", "domain", "domains", "did", "dids", "gateway", "gateways"};
         Subparser del = subparsers.addParser("delete").aliases("del").help("delete an existing resource(s)");
         del.addArgument("resource").metavar("resource").choices(delSubCmds).help("type of resource (ie.: agent, domain, etc)");
@@ -28,11 +29,11 @@ public class CmdDelete {
             "  # Deletes resource type DIDs using the its parent Gateway reference",
             "  $ sipioctl -- del did --filter \"@.metadata.gwRef=\"gweef506\""
         ));
+
+        this.ctlUtils = ctlUtils;
     }
 
-    void run(String resource, String ref, String filter) throws UnirestException {
-        CtlUtils ctlUtils = new CtlUtils();
-
+    void run(String resource, String ref, String filter) {
         if (ref.isEmpty() && filter.isEmpty()) {
             out.print("You must indicate a 'REF' or --filter");
             System.exit(1);

@@ -8,7 +8,6 @@ import com.inamik.text.tables.GridTable;
 import com.inamik.text.tables.SimpleTable;
 import com.inamik.text.tables.grid.Border;
 import com.inamik.text.tables.grid.Util;
-import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.util.Iterator;
 import java.util.List;
@@ -21,8 +20,13 @@ import static java.lang.System.out;
  */
 public class CmdGetGateways {
 
-    static public void printGateways(String ref, String filter) throws UnirestException {
-        CtlUtils ctlUtils = new CtlUtils();
+    private static CtlUtils ctlUtils;
+
+    public CmdGetGateways(CtlUtils ctlUtils) {
+        this.ctlUtils = ctlUtils;
+    }
+
+    public void printGateways(String ref, String filter) {
         String result = ctlUtils.getWithToken("gateways", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
         JsonArray gateways = gson.fromJson(result, JsonArray.class);

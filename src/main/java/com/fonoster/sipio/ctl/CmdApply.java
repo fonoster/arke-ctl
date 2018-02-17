@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import net.sourceforge.argparse4j.inf.Subparser;
 import net.sourceforge.argparse4j.inf.Subparsers;
 
@@ -15,7 +14,9 @@ import static java.lang.System.out;
 
 public class CmdApply {
 
-    public CmdApply(Subparsers subparsers) {
+    private static CtlUtils ctlUtils;
+
+    public CmdApply(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser apply = subparsers.addParser("apply").help("apply changes over existing resource(s)");
         apply.addArgument("-f").metavar("FILE").help("path to yaml file with a resources(s)");
 
@@ -27,11 +28,11 @@ public class CmdApply {
             "  # Updates a set of gateways",
             "  $ sipioctl -- apply -f gws.yaml"
         ));
+
+        this.ctlUtils = ctlUtils;
     }
 
-    void run(String path) throws UnirestException {
-        CtlUtils ctlUtils = new CtlUtils();
-
+    void run(String path) {
         String data = "";
 
         if (path.isEmpty()) {

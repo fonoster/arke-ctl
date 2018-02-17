@@ -8,7 +8,6 @@ import com.inamik.text.tables.GridTable;
 import com.inamik.text.tables.SimpleTable;
 import com.inamik.text.tables.grid.Border;
 import com.inamik.text.tables.grid.Util;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import net.sourceforge.argparse4j.inf.Subparsers;
 
 import java.util.Iterator;
@@ -17,12 +16,14 @@ import static java.lang.System.out;
 
 public class CmdRegistry {
 
-    public CmdRegistry(Subparsers subparsers) {
+    private static CtlUtils ctlUtils;
+
+    public CmdRegistry(Subparsers subparsers, CtlUtils ctlUtils) {
         subparsers.addParser("registry").aliases("reg").help("shows gateways registrations");
+        this.ctlUtils = ctlUtils;
     }
 
-    void run() throws UnirestException {
-        CtlUtils ctlUtils = new CtlUtils();
+    void run() {
         String result = ctlUtils.getWithToken("registry", "").getBody().toString();
         Gson gson = new Gson();
         JsonArray registries = gson.fromJson(result, JsonArray.class);

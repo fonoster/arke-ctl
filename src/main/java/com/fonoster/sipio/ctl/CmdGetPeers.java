@@ -8,7 +8,6 @@ import com.inamik.text.tables.GridTable;
 import com.inamik.text.tables.SimpleTable;
 import com.inamik.text.tables.grid.Border;
 import com.inamik.text.tables.grid.Util;
-import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.util.Iterator;
 
@@ -20,8 +19,13 @@ import static java.lang.System.out;
  */
 public class CmdGetPeers {
 
-    static public void printPeers(String ref, String filter) throws UnirestException {
-        CtlUtils ctlUtils = new CtlUtils();
+    private static CtlUtils ctlUtils;
+
+    public CmdGetPeers(CtlUtils ctlUtils) {
+        this.ctlUtils = ctlUtils;
+    }
+
+    public void printPeers(String ref, String filter) {
         String result = ctlUtils.getWithToken("peers", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
         JsonArray peers = gson.fromJson(result, JsonArray.class);

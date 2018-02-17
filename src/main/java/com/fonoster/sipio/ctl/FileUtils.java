@@ -3,6 +3,9 @@ package com.fonoster.sipio.ctl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,6 +19,13 @@ public class FileUtils {
     public FileUtils() {
         this.yamlReader = new ObjectMapper(new YAMLFactory());
         this.mapper = new ObjectMapper();
+    }
+
+    public void writeFile(String path, String text) throws IOException {
+        File file = new File(path);
+        BufferedWriter out = new BufferedWriter(new FileWriter(file));
+        out.write(text);
+        out.close();
     }
 
     public String readFile (String path) throws IOException {

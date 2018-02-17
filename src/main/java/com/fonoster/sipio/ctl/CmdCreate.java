@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import net.sourceforge.argparse4j.inf.Subparser;
 import net.sourceforge.argparse4j.inf.Subparsers;
 
@@ -15,7 +14,9 @@ import static java.lang.System.out;
 
 public class CmdCreate {
 
-    public CmdCreate(Subparsers subparsers) {
+    private static CtlUtils ctlUtils;
+
+    public CmdCreate(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser create = subparsers.addParser("create").aliases("crea").help("creates new resource(s)");
         create.addArgument("-f").metavar("FILE").help("path to yaml file with a resources(s)");
 
@@ -27,11 +28,11 @@ public class CmdCreate {
             "  # Creates a set of gateways from a yaml file\n",
             "  $ sipioctl -- create -f gws.yaml\n"
         ));
+
+        this.ctlUtils = ctlUtils;
     }
 
-    void run(String path) throws UnirestException {
-        CtlUtils ctlUtils = new CtlUtils();
-
+    void run(String path) {
         String data = "";
 
         if (path.isEmpty()) {
