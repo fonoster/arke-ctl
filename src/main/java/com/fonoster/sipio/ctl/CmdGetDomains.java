@@ -48,8 +48,8 @@ public class CmdGetDomains {
             String name = metadata.get("name").getAsString();
             String objRef = metadata.get("ref").getAsString();
 
-            String egressPolicy = "{}";
-            String accessControlList = "{}";
+            String egressPolicy = "--";
+            String accessControlList = "--";
 
             try {
                 egressPolicy = context.get("egressPolicy").toString();

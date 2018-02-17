@@ -22,10 +22,10 @@ public class CmdCreate {
         create.epilog(String.join(
             System.getProperty("line.separator"),
             "`Examples:",
-            "\t# Creates a new agent from a yaml file",
-            "\t$ sipioctl -- crea -f agent.yaml\n\n",
-            "\t# Creates a set of gateways from a yaml file\n",
-            "\t$ sipioctl -- create -f gws.yaml\n"
+            "  # Creates a new agent from a yaml file",
+            "  $ sipioctl -- crea -f agent.yaml\n\n",
+            "  # Creates a set of gateways from a yaml file\n",
+            "  $ sipioctl -- create -f gws.yaml\n"
         ));
     }
 

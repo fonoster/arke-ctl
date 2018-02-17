@@ -55,7 +55,7 @@ public class CtlUtils {
     public HttpResponse postWithToken(String resource, String data) throws UnirestException {
         HttpResponse result;
 
-        if (!data.isEmpty()) {
+        if (data != null && !data.isEmpty()) {
             result = Unirest.post(this.baseUrl + "/" + resource + "?token=" + token).body(data).asString();
         } else {
             result = Unirest.post(this.baseUrl + "/" + resource + "?token=" + token).asString();
@@ -67,10 +67,22 @@ public class CtlUtils {
     public HttpResponse putWithToken(String resource, String data) throws UnirestException {
         HttpResponse result;
 
-        if (!data.isEmpty()) {
+        if (data != null && !data.isEmpty()) {
             result = Unirest.put(this.baseUrl + "/" + resource + "?token=" + token).body(data).asString();
         } else {
             result = Unirest.put(this.baseUrl + "/" + resource + "?token=" + token).asString();
+        }
+
+        return result;
+    }
+
+    public HttpResponse deleteWithToken(String resource, String params, String data) throws UnirestException {
+        HttpResponse result;
+
+        if (data != null && !data.isEmpty()) {
+            result = Unirest.delete(this.baseUrl + "/" + resource + "?token=" + token + "&" + params).body(data).asString();
+        } else {
+            result = Unirest.delete(this.baseUrl + "/" + resource + "?token=" + token + "&" + params).asString();
         }
 
         return result;

@@ -10,7 +10,7 @@ import net.sourceforge.argparse4j.inf.Subparsers;
 public class Main {
 
     static public void main(String... args) throws UnirestException {
-        String accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiJ9.S7c6sLg7MvF2iPN4XksXQ4O6TIl-ln8Y8fqXPWgEj8pGQqHNFFXHOec-RqBUGiXKuWXlf_TSlZVfo2xy7AUhLg";
+        String accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiJ9.75_0_jp8__mLr2FK5Q-m2ph4euWA_zl3G_q01SdCo0Drg-_Dya3_OLTRGbRImnG5P-TfAgboqf5y3qGu1l39BA";
 
         ArgumentParser parser = ArgumentParsers
             .newFor("sipioctl")
@@ -27,6 +27,8 @@ public class Main {
         CmdDelete cmdDelete = new CmdDelete(subparsers);
         CmdLocate cmdLocate = new CmdLocate(subparsers);
         CmdRegistry cmdRegistry = new CmdRegistry(subparsers);
+        CmdStop cmdStop = new CmdStop(subparsers);
+        CmdConfig cmdConfig = new CmdConfig(subparsers);
 
         try {
             // Variable 'args' is a global coming from the entry point script
@@ -50,10 +52,16 @@ public class Main {
                     break;
                 case "delete":
                 case "del":
-                    cmdDelete.run(res.get("f"));
+                    cmdDelete.run(res.get("resource"), res.get("REF"), res.get("filter"));
                     break;
                 case "get":
                     cmdGet.run(res.get("resource"), res.get("REF"), res.get("filter"));
+                    break;
+                case "stop":
+                    cmdStop.run();
+                    break;
+                case "configure":
+                    cmdConfig.run();
                     break;
                 default:
                     //throw "This is not possible";

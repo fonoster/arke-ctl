@@ -21,11 +21,11 @@ public class CmdApply {
 
         apply.epilog(String.join(
             System.getProperty("line.separator"),
-            "`Examples:",
-            "\t# Apply changes to an existing agent",
-            "\t$ sipioctl -- apply -f agent.yaml\n\n",
-            "\t# Updates a set of gateways\n",
-            "\t$ sipioctl -- apply -f gws.yaml\n"
+            "Examples:",
+            "  # Apply changes to an existing agent",
+            "  $ sipioctl -- apply -f agent.yaml\n",
+            "  # Updates a set of gateways",
+            "  $ sipioctl -- apply -f gws.yaml"
         ));
     }
 

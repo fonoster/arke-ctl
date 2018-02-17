@@ -14,13 +14,13 @@ public class CmdGet {
         get.addArgument("--filter").setDefault("*").help("apply filter base on resource metadata");
         get.epilog(String.join(
             System.getProperty("line.separator"),
-            "`Examples:",
-            "\t# Shows all the agents in the system",
-            "\t$ sipioctl -- get agents\n",
-            "\t# List a single agent by ref",
-            "\t$ sipioctl -- get agent john-4353\n",
-            "\t# Gets did using its reference",
-            "\t$ sipioctl -- get dids --filter \"@.metadata.ref=='DID0001'"
+            "Examples:",
+            "  # Shows all the agents in the system",
+            "  $ sipioctl -- get agents\n",
+            "  # List a single agent by ref",
+            "  $ sipioctl -- get agent ag3f77f6\n",
+            "  # Gets did using its reference",
+            "  $ sipioctl -- get dids --filter \"@.metadata.ref=='dd50baa4'"
         ));
     }
 

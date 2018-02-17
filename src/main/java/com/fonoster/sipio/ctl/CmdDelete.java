@@ -1,83 +1,49 @@
 package com.fonoster.sipio.ctl;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import net.sourceforge.argparse4j.inf.Subparser;
 import net.sourceforge.argparse4j.inf.Subparsers;
 
-import java.nio.file.NoSuchFileException;
-import java.util.Iterator;
-
 import static java.lang.System.out;
+
 
 public class CmdDelete {
 
     public CmdDelete(Subparsers subparsers) {
-        Subparser apply = subparsers.addParser("apply").help("apply changes over existing resource(s)");
-        apply.addArgument("-f").metavar("FILE").help("path to yaml file with a resources(s)");
+        String[] delSubCmds = new String[]{"agents", "peer", "peers", "domain", "domains", "did", "dids", "gateway", "gateways"};
+        Subparser del = subparsers.addParser("delete").aliases("del").help("delete an existing resource(s)");
+        del.addArgument("resource").metavar("resource").choices(delSubCmds).help("type of resource (ie.: agent, domain, etc)");
+        del.addArgument("REF").nargs("?").help("reference to resource");
+        del.addArgument("--filter").setDefault("").help("apply filter base on resource(s) metadata ");
 
-        apply.epilog(String.join(
+        del.epilog(String.join(
             System.getProperty("line.separator"),
-            "`Examples:",
-            "\t# Apply changes to an existing agent",
-            "\t$ sipioctl -- apply -f agent.yaml\n\n",
-            "\t# Updates a set of gateways\n",
-            "\t$ sipioctl -- apply -f gws.yaml\n"
+            "Examples:",
+            "  # Deletes resource type Agent using its reference",
+            "  $ sipioctl -- delete agent ag2g4s34\n",
+            "  # or use \"del\" alias\n",
+            "  # Deletes resource type DIDs using the its parent Gateway reference",
+            "  $ sipioctl -- del did --filter \"@.metadata.gwRef=\"gweef506\""
         ));
     }
 
-    void run(String path) throws UnirestException {
+    void run(String resource, String ref, String filter) throws UnirestException {
         CtlUtils ctlUtils = new CtlUtils();
 
-        String data = "";
-
-        if (path.isEmpty()) {
-            out.print("You must indicate the path to the resource");
+        if (ref.isEmpty() && filter.isEmpty()) {
+            out.print("You must indicate a 'REF' or --filter");
             System.exit(1);
         }
 
-        try {
-            data = new FileUtils().getJsonString(path);
-        } catch(Exception ex) {
-            if (ex instanceof NoSuchFileException) {
-                out.print("Please ensure file '" + ex.getMessage() + "' exist and has proper permissions");
-            } else if (ex instanceof NullPointerException) {
-                out.print("You must indicate a file :(");
-            } else {
-                out.print("Unexpected Exception: " + ex.getMessage());
-            }
-            System.exit(1);
-        }
+        if(!resource.endsWith("s")) resource = resource + "s";
+
+        HttpResponse result = ctlUtils.deleteWithToken(resource + '/' + ref, "filter=" + filter, null);
 
         Gson gson = new Gson();
-        JsonElement jo = gson.fromJson(data, JsonElement.class);
-
-        if(jo.isJsonArray()) {
-            Iterator i = jo.getAsJsonArray().iterator();
-
-            // Fixme: Put verb uses a different endpoint...
-            while(i.hasNext()) {
-                JsonElement je = ((JsonElement) i.next());
-                JsonObject resource = je.getAsJsonObject();
-                JsonObject metadata = resource.get("metadata").getAsJsonObject();
-                String ref = metadata.get("ref").getAsString();
-                String kind = resource.get("kind").getAsString();
-                kind = kind.toLowerCase() + "s";
-                HttpResponse result = ctlUtils.putWithToken(kind + "/" + ref, data);
-                String message = gson.fromJson(result.getBody().toString(), JsonObject.class).get("message").getAsString();
-                out.println(message);
-            }
-        } else {
-            String kind = jo.getAsJsonObject().get("kind").getAsString();
-            JsonObject metadata = jo.getAsJsonObject().get("metadata").getAsJsonObject();
-            String ref = metadata.get("ref").getAsString();
-            kind = kind.toLowerCase() + "s";
-            HttpResponse result = ctlUtils.putWithToken(kind + "/" + ref, data);
-            String message = gson.fromJson(result.getBody().toString(), JsonObject.class).get("message").getAsString();
-            out.print(message);
-        }
+        String message = gson.fromJson(result.getBody().toString(), JsonObject.class).get("message").getAsString();
+        out.println(message);
     }
 }
