@@ -53,7 +53,7 @@ public class CmdGetPeers {
             String device = "";
 
             try {
-                device = metadata.get("device").getAsString();
+                device = spec.get("device").getAsString();
             } catch(NullPointerException ex) {
             }
 
