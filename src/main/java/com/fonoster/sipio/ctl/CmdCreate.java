@@ -3,6 +3,7 @@ package com.fonoster.sipio.ctl;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.mashape.unirest.http.HttpResponse;
 import net.sourceforge.argparse4j.inf.Subparser;
 import net.sourceforge.argparse4j.inf.Subparsers;
@@ -61,19 +62,50 @@ public class CmdCreate {
 
             while(i.hasNext()) {
                 JsonElement je = ((JsonElement) i.next());
-                JsonObject resource = je.getAsJsonObject();
-                String kind = resource.get("kind").getAsString();
-                kind = kind.toLowerCase() + "s";
-                HttpResponse result = ctlUtils.postWithToken(kind, data);
-                String message = gson.fromJson(result.getBody().toString(), JsonObject.class).get("message").getAsString();
-                out.println(message);
+                JsonObject jObj = je.getAsJsonObject();
+                final String kind = jObj.get("kind").getAsString();
+                HttpResponse result = ctlUtils.postWithToken(kind.toLowerCase() + "s", jObj.toString());
+
+                if(result.getStatus() == 200) {
+                    out.println(kind.toLowerCase() + " \"" + getName(jObj) + "\" created");
+                } else {
+                    String message = gson.fromJson(result.getBody().toString(), JsonPrimitive.class).getAsString();
+                    out.println(message);
+                }
             }
         } else {
-            String kind = jo.getAsJsonObject().get("kind").getAsString();
-            kind = kind.toLowerCase() + "s";
-            HttpResponse result = ctlUtils.postWithToken(kind, data);
-            String message = gson.fromJson(result.getBody().toString(), JsonObject.class).get("message").getAsString();
-            out.print(message);
+            final String kind = jo.getAsJsonObject().get("kind").getAsString();
+            HttpResponse result = ctlUtils.postWithToken(kind.toLowerCase() + "s", data);
+
+            if(result.getStatus() == 200) {
+                JsonObject jObj = gson.fromJson(result.getBody().toString(), JsonObject.class);
+                out.println(kind.toLowerCase() + " \"" + getName(jObj) + "\" created");
+            } else {
+                String message = gson.fromJson(result.getBody().toString(), JsonPrimitive.class).getAsString();
+                out.println(message);
+            }
         }
+    }
+
+    private String getName (JsonObject obj) {
+        final String kind = obj.get("kind").getAsString();
+
+        if (kind.equalsIgnoreCase("User")
+                || kind.equalsIgnoreCase("Agent")
+                || kind.equalsIgnoreCase("Gateway")
+                || kind.equalsIgnoreCase("Peer")
+                || kind.equalsIgnoreCase("User")) {
+
+            JsonObject metadata = obj.getAsJsonObject("metadata");
+
+            return metadata.get("name").getAsString();
+        } else if (kind.equalsIgnoreCase("DID")) {
+            JsonObject spec = obj.getAsJsonObject("spec");
+            JsonObject credentials = spec.getAsJsonObject("location");
+            String result = credentials.get("telUrl").getAsString().replaceAll("tel:", "");
+            return result;
+        }
+
+        return "";
     }
 }

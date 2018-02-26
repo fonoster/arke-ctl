@@ -21,6 +21,7 @@ public class CmdLogin {
         this.ctlUtils = ctlUtils;
     }
 
+    // Fixme: Not yet handling errors
     void run(String apiUrl, String username, String password) throws IOException {
         String token = new CtlUtils(apiUrl, username, password).getToken();
 
