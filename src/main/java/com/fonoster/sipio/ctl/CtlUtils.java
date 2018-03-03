@@ -161,7 +161,7 @@ public class CtlUtils {
 
     public void errorHandling(HttpResponse result) {
         if (result.getStatus() == 404) {
-            out.println("Invalid api url");
+            out.println("Invalid api path");
             exit(1);
         }
 
