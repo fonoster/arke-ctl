@@ -17,18 +17,18 @@ public class CmdSystem {
     private static CtlUtils ctlUtils;
 
     public CmdSystem(Subparsers subparsers, CtlUtils ctlUtils) {
-        Subparser sys = subparsers.addParser("system").aliases("sys").help("display a list of resources");
+        Subparser sys = subparsers.addParser("system").aliases("sys").help("shows system information");
         sys.addArgument("subcommand").metavar("subcommand").choices("status", "info", "stop").help("system actions");
 
         sys.epilog(String.join(
             System.getProperty("line.separator"),
             "Examples:",
             "  # Shows system information like version and apiPath",
-            "  $ sipioctl -- system info\n",
+            "  $ sipioctl system info\n",
             "  # Shows the current system status",
-            "  $ sipioctl -- sys status\n",
+            "  $ sipioctl sys status\n",
             "  # Stops the system",
-            "  $ sipioctl -- sys halt"
+            "  $ sipioctl sys halt"
         ));
 
         this.ctlUtils = ctlUtils;

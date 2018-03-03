@@ -29,7 +29,8 @@ public class CmdGetGateways {
     public void printGateways(String ref, String filter) {
         String result = ctlUtils.getWithToken("gateways", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
-        JsonArray gateways = gson.fromJson(result, JsonArray.class);
+        JsonObject response = gson.fromJson(result, JsonObject.class);
+        JsonArray gateways = response.getAsJsonArray("result");
 
         SimpleTable textTable = SimpleTable.of()
             .nextRow()
@@ -70,8 +71,8 @@ public class CmdGetGateways {
 
             if (ref.isEmpty() || ref.equals(metaRef)) {
 
-                if (registries.isEmpty()) registries = "--";
-                if (host.isEmpty()) registries = "--";
+                if (registries.isEmpty()) registries = "None";
+                if (host.isEmpty()) registries = "None";
 
                 textTable.nextRow()
                     .nextCell().addLine(metaRef)

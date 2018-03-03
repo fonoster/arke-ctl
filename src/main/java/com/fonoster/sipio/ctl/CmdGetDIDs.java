@@ -28,7 +28,8 @@ public class CmdGetDIDs {
     public void printDIDs(String ref, String filter) {
         String result = ctlUtils.getWithToken("dids", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
-        JsonArray dids = gson.fromJson(result, JsonArray.class);
+        JsonObject response = gson.fromJson(result, JsonObject.class);
+        JsonArray dids = response.getAsJsonArray("result");
 
         SimpleTable textTable = SimpleTable.of()
             .nextRow()

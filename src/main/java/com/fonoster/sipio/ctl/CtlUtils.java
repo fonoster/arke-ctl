@@ -169,6 +169,11 @@ public class CtlUtils {
             out.println(Main.INVALID_ACCESS_TOKEN);
             exit(1);
         }
+
+        if (result.getStatus() == 500) {
+            out.println("Internal server error");
+            exit(1);
+        }
     }
 }
 

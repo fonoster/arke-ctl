@@ -28,7 +28,8 @@ public class CmdGetPeers {
     public void printPeers(String ref, String filter) {
         String result = ctlUtils.getWithToken("peers", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
-        JsonArray peers = gson.fromJson(result, JsonArray.class);
+        JsonObject response = gson.fromJson(result, JsonObject.class);
+        JsonArray peers = response.getAsJsonArray("result");
 
         SimpleTable textTable = SimpleTable.of()
             .nextRow()
@@ -58,7 +59,7 @@ public class CmdGetPeers {
             }
 
            if (ref.isEmpty() || ref.equals(username)) {
-                String deviceName = "--";
+                String deviceName = "None";
 
                 if (!device.isEmpty()) deviceName = device;
 

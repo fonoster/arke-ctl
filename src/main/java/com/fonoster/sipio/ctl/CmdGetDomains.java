@@ -28,7 +28,8 @@ public class CmdGetDomains {
     public void printDomains(String ref, String filter) {
         String result = ctlUtils.getWithToken("domains", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
-        JsonArray domains = gson.fromJson(result, JsonArray.class);
+        JsonObject response = gson.fromJson(result, JsonObject.class);
+        JsonArray domains = response.getAsJsonArray("result");
 
         SimpleTable textTable = SimpleTable.of()
             .nextRow()
@@ -52,8 +53,8 @@ public class CmdGetDomains {
             String name = metadata.get("name").getAsString();
             String objRef = metadata.get("ref").getAsString();
 
-            String egressPolicy = "--";
-            String accessControlList = "--";
+            String egressPolicy = "None";
+            String accessControlList = "None";
 
             try {
                 egressPolicy = context.get("egressPolicy").toString();

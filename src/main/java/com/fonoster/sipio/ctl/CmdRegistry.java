@@ -26,7 +26,8 @@ public class CmdRegistry {
     void run() {
         String result = ctlUtils.getWithToken("registry", "").getBody().toString();
         Gson gson = new Gson();
-        JsonArray registries = gson.fromJson(result, JsonArray.class);
+        JsonObject response = gson.fromJson(result, JsonObject.class);
+        JsonArray registries = response.getAsJsonArray("result");
 
         SimpleTable textTable = SimpleTable.of()
                 .nextRow()

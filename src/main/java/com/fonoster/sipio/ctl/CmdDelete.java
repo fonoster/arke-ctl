@@ -14,7 +14,7 @@ public class CmdDelete {
     private static CtlUtils ctlUtils;
 
     public CmdDelete(Subparsers subparsers, CtlUtils ctlUtils) {
-        String[] delSubCmds = new String[]{"agents", "peer", "peers", "domain", "domains", "did", "dids", "gateway", "gateways"};
+        String[] delSubCmds = new String[]{"agent", "agents", "peer", "peers", "domain", "domains", "did", "dids", "gateway", "gateways"};
         Subparser del = subparsers.addParser("delete").aliases("del").help("delete an existing resource(s)");
         del.addArgument("resource").metavar("resource").choices(delSubCmds).help("type of resource (ie.: agent, domain, etc)");
         del.addArgument("REF").nargs("?").help("reference to resource");
@@ -24,10 +24,10 @@ public class CmdDelete {
             System.getProperty("line.separator"),
             "Examples:",
             "  # Deletes resource type Agent using its reference",
-            "  $ sipioctl -- delete agent ag2g4s34\n",
+            "  $ sipioctl delete agent ag2g4s34\n",
             "  # or use \"del\" alias\n",
             "  # Deletes resource type DIDs using the its parent Gateway reference",
-            "  $ sipioctl -- del did --filter \"@.metadata.gwRef=\"gweef506\""
+            "  $ sipioctl del did --filter \"@.metadata.gwRef=\"gweef506\""
         ));
 
         this.ctlUtils = ctlUtils;

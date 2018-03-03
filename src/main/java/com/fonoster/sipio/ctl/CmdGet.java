@@ -17,11 +17,11 @@ public class CmdGet {
             System.getProperty("line.separator"),
             "Examples:",
             "  # Shows all the agents in the system",
-            "  $ sipioctl -- get agents\n",
+            "  $ sipioctl get agents\n",
             "  # List a single agent by ref",
-            "  $ sipioctl -- get agent ag3f77f6\n",
+            "  $ sipioctl get agent ag3f77f6\n",
             "  # Gets did using its reference",
-            "  $ sipioctl -- get dids --filter \"@.metadata.ref=='dd50baa4'"
+            "  $ sipioctl get dids --filter \"@.metadata.ref=='dd50baa4'"
         ));
         this.ctlUtils = ctlUtils;
     }
