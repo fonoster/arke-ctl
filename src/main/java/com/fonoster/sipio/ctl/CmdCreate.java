@@ -70,8 +70,8 @@ public class CmdCreate {
 
     private void create(JsonElement je) {
         JsonObject jo = je.getAsJsonObject();
-        String kind = jo.getAsJsonObject().get("kind").getAsString();
-        HttpResponse result = ctlUtils.postWithToken(kind.toLowerCase() + "s", gson.toJson(je));
+        String collection = jo.getAsJsonObject().get("kind").getAsString().toLowerCase() + "s";
+        HttpResponse result = ctlUtils.postWithToken(collection, gson.toJson(je));
         JsonObject jObject = gson.fromJson(result.getBody().toString(), JsonObject.class);
         String message = jObject.get("message").getAsString();
         out.println(message);
