@@ -56,18 +56,13 @@ public class CmdGetGateways {
             String name = metadata.get("name").getAsString();
 
             String registries = "";
-            String host = "";
-
-            try {
-                host = regService.get("host").getAsString();
-            } catch(NullPointerException ex) {
-            }
+            String host = regService.get("host").getAsString();
 
             try {
                 List<String> r = gson.fromJson(regService.getAsJsonArray("registries"), List.class);
                 registries = String.join(",", r);
             } catch(NullPointerException ex) {
-            }
+            } catch(ClassCastException ex) {}
 
             if (ref.isEmpty() || ref.equals(metaRef)) {
 
