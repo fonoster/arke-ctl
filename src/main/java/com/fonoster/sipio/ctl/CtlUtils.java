@@ -52,17 +52,17 @@ public class CtlUtils {
     }
 
     public CtlUtils(String apiUrl, String username, String password) {
-        this.apiUrl = apiUrl;
-        this.username = username;
-        this.password = password;
+        CtlUtils.apiUrl = apiUrl;
+        CtlUtils.username = username;
+        CtlUtils.password = password;
     }
 
     public CtlUtils(String apiUrl, String accessToken) {
-        this.apiUrl = apiUrl;
-        this.accessToken = accessToken;
+        CtlUtils.apiUrl = apiUrl;
+        CtlUtils.accessToken = accessToken;
     }
 
-    public String getToken() {
+    String getToken() {
         HttpResponse<String> result = null;
 
         try {
@@ -72,9 +72,14 @@ public class CtlUtils {
             exit(1);
         }
 
+        if (result.getStatus() == 401) {
+            out.println("Unable to retrieve token. Please verify your credentials");
+            exit(1);
+        }
+
         errorHandling(result);
 
-        return result.getBody().toString();
+        return result.getBody();
     }
 
     public HttpResponse getWithToken(String resource, String params) {
@@ -98,14 +103,14 @@ public class CtlUtils {
         return result;
     }
 
-    public HttpResponse postWithToken(String resource, String data) {
+    HttpResponse postWithToken(String resource, String data) {
         HttpResponse result = null;
 
         try {
             if (data != null && !data.isEmpty()) {
-                result = Unirest.post(this.apiUrl + "/" + resource + "?token=" + accessToken).body(data).asString();
+                result = Unirest.post(apiUrl + "/" + resource + "?token=" + accessToken).body(data).asString();
             } else {
-                result = Unirest.post(this.apiUrl + "/" + resource + "?token=" + accessToken).asString();
+                result = Unirest.post(apiUrl + "/" + resource + "?token=" + accessToken).asString();
             }
         } catch (UnirestException ex) {
             if (resource.equals("system/status/down")) {
@@ -121,14 +126,14 @@ public class CtlUtils {
         return result;
     }
 
-    public HttpResponse putWithToken(String resource, String data) {
+    HttpResponse putWithToken(String resource, String data) {
         HttpResponse result = null;
 
         try {
             if (data != null && !data.isEmpty()) {
-                result = Unirest.put(this.apiUrl + "/" + resource + "?token=" + accessToken).body(data).asString();
+                result = Unirest.put(apiUrl + "/" + resource + "?token=" + accessToken).body(data).asString();
             } else {
-                result = Unirest.put(this.apiUrl + "/" + resource + "?token=" + accessToken).asString();
+                result = Unirest.put(apiUrl + "/" + resource + "?token=" + accessToken).asString();
             }
         } catch (UnirestException ex) {
             out.println("Unable to perform request. Ensure server is up");
@@ -140,15 +145,11 @@ public class CtlUtils {
         return result;
     }
 
-    public HttpResponse deleteWithToken(String resource, String params, String data) {
+    HttpResponse deleteWithToken(String resource, String params) {
         HttpResponse result = null;
 
         try {
-            if (data != null && !data.isEmpty()) {
-                result = Unirest.delete(this.apiUrl + "/" + resource + "?token=" + accessToken + "&" + params).body(data).asString();
-            } else {
-                result = Unirest.delete(this.apiUrl + "/" + resource + "?token=" + accessToken + "&" + params).asString();
-            }
+            result = Unirest.delete(apiUrl + "/" + resource + "?token=" + accessToken + "&" + params).asString();
         } catch (UnirestException ex) {
             out.println("Unable to perform request. Ensure server is up");
             exit(1);
@@ -159,7 +160,7 @@ public class CtlUtils {
         return result;
     }
 
-    public void errorHandling(HttpResponse result) {
+    private void errorHandling(HttpResponse result) {
         if (result.getStatus() == 404) {
             out.println("Invalid api path");
             exit(1);

@@ -9,11 +9,11 @@ import net.sourceforge.argparse4j.inf.Subparsers;
 import static java.lang.System.out;
 
 
-public class CmdDelete {
+class CmdDelete {
 
     private static CtlUtils ctlUtils;
 
-    public CmdDelete(Subparsers subparsers, CtlUtils ctlUtils) {
+    CmdDelete(Subparsers subparsers, CtlUtils ctlUtils) {
         String[] delSubCmds = new String[]{"agent", "agents", "peer", "peers", "domain", "domains", "did", "dids", "gateway", "gateways"};
         Subparser del = subparsers.addParser("delete").aliases("del").help("delete an existing resource(s)");
         del.addArgument("resource").metavar("resource").choices(delSubCmds).help("type of resource (ie.: agent, domain, etc)");
@@ -30,7 +30,7 @@ public class CmdDelete {
             "  $ sipioctl del did --filter \"@.metadata.gwRef=\"gweef506\""
         ));
 
-        this.ctlUtils = ctlUtils;
+        CmdDelete.ctlUtils = ctlUtils;
     }
 
     void run(String resource, String ref, String filter) {
@@ -41,7 +41,7 @@ public class CmdDelete {
 
         if(!resource.endsWith("s")) resource = resource + "s";
 
-        HttpResponse result = ctlUtils.deleteWithToken(resource + '/' + ref, "filter=" + filter, null);
+        HttpResponse result = ctlUtils.deleteWithToken(resource + '/' + ref, "filter=" + filter);
 
         Gson gson = new Gson();
         String message = gson.fromJson(result.getBody().toString(), JsonObject.class).get("message").getAsString();

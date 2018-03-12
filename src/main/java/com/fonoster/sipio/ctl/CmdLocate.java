@@ -11,17 +11,15 @@ import com.inamik.text.tables.grid.Util;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import net.sourceforge.argparse4j.inf.Subparsers;
 
-import java.util.Iterator;
-
 import static java.lang.System.out;
 
-public class CmdLocate {
+class CmdLocate {
 
     private static CtlUtils ctlUtils;
 
-    public CmdLocate(Subparsers subparsers, CtlUtils ctlUtils) {
+    CmdLocate(Subparsers subparsers, CtlUtils ctlUtils) {
         subparsers.addParser("locate").aliases("loc").help("locate sip device(s)");
-        this.ctlUtils = ctlUtils;
+        CmdLocate.ctlUtils = ctlUtils;
     }
 
     void run() throws UnirestException {
@@ -37,10 +35,7 @@ public class CmdLocate {
 
         int cnt = 0;
 
-        Iterator i = locEntries.iterator();
-
-        while(i.hasNext()) {
-            JsonElement je = (JsonElement) i.next();
+        for (JsonElement je : locEntries) {
             JsonObject entry = je.getAsJsonObject();
             String aor = entry.get("addressOfRecord").getAsString();
             String contactInfo = entry.get("contactInfo").getAsString();

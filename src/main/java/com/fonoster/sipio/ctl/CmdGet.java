@@ -7,7 +7,7 @@ public class CmdGet {
 
     private static CtlUtils ctlUtils;
 
-    public CmdGet(Subparsers subparsers, CtlUtils ctlUtils) {
+    CmdGet(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser get = subparsers.addParser("get").help("display a list of resources");
         get.addArgument("resource").metavar("resource").choices("agent", "agents", "peer", "peers",
                 "domain", "domains", "did", "dids", "gateway", "gateways").help("the resource to be listed");
@@ -23,7 +23,7 @@ public class CmdGet {
             "  # Gets did using its reference",
             "  $ sipioctl get dids --filter \"@.metadata.ref=='dd50baa4'"
         ));
-        this.ctlUtils = ctlUtils;
+        CmdGet.ctlUtils = ctlUtils;
     }
 
     void run(String resource, String ref, String filter) {

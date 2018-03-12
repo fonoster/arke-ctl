@@ -9,23 +9,21 @@ import com.inamik.text.tables.SimpleTable;
 import com.inamik.text.tables.grid.Border;
 import com.inamik.text.tables.grid.Util;
 
-import java.util.Iterator;
-
 import static java.lang.System.out;
 
 /**
  * @author Pedro Sanders
  * @since v1
  */
-public class CmdGetDIDs {
+class CmdGetDIDs {
 
     private static CtlUtils ctlUtils;
 
-    public CmdGetDIDs(CtlUtils ctlUtils) {
-        this.ctlUtils = ctlUtils;
+    CmdGetDIDs(CtlUtils ctlUtils) {
+        CmdGetDIDs.ctlUtils = ctlUtils;
     }
 
-    public void printDIDs(String ref, String filter) {
+    void printDIDs(String ref, String filter) {
         String result = ctlUtils.getWithToken("dids", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
         JsonObject response = gson.fromJson(result, JsonObject.class);
@@ -41,10 +39,7 @@ public class CmdGetDIDs {
 
         int cnt = 0;
 
-        Iterator i = dids.iterator();
-
-        while(i.hasNext()) {
-            JsonElement je = (JsonElement) i.next();
+        for (JsonElement je : dids) {
             JsonObject did = je.getAsJsonObject();
             JsonObject metadata = did.getAsJsonObject("metadata");
             JsonObject geoInfo = metadata.getAsJsonObject("geoInfo");
@@ -58,11 +53,11 @@ public class CmdGetDIDs {
 
             if (ref.isEmpty() || ref.equals(objRef)) {
                 textTable.nextRow()
-                    .nextCell().addLine(objRef)
-                    .nextCell().addLine(gwRef)
-                    .nextCell().addLine(telUrl)
-                    .nextCell().addLine(aorLink)
-                    .nextCell().addLine(city);
+                        .nextCell().addLine(objRef)
+                        .nextCell().addLine(gwRef)
+                        .nextCell().addLine(telUrl)
+                        .nextCell().addLine(aorLink)
+                        .nextCell().addLine(city);
                 cnt++;
             }
         }

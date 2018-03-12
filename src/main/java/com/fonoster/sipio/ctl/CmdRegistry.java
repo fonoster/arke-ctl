@@ -10,17 +10,15 @@ import com.inamik.text.tables.grid.Border;
 import com.inamik.text.tables.grid.Util;
 import net.sourceforge.argparse4j.inf.Subparsers;
 
-import java.util.Iterator;
-
 import static java.lang.System.out;
 
-public class CmdRegistry {
+class CmdRegistry {
 
     private static CtlUtils ctlUtils;
 
-    public CmdRegistry(Subparsers subparsers, CtlUtils ctlUtils) {
+    CmdRegistry(Subparsers subparsers, CtlUtils ctlUtils) {
         subparsers.addParser("registry").aliases("reg").help("shows gateways registrations");
-        this.ctlUtils = ctlUtils;
+        CmdRegistry.ctlUtils = ctlUtils;
     }
 
     void run() {
@@ -38,10 +36,7 @@ public class CmdRegistry {
 
         int cnt = 0;
 
-        Iterator i = registries.iterator();
-
-        while(i.hasNext()) {
-            JsonElement je = (JsonElement) i.next();
+        for (JsonElement je : registries) {
             JsonObject reg = je.getAsJsonObject();
             String username = reg.get("username").getAsString();
             String host = reg.get("host").getAsString();
@@ -49,10 +44,10 @@ public class CmdRegistry {
             String regOnFormatted = reg.get("regOnFormatted").getAsString();
 
             textTable.nextRow()
-                .nextCell().addLine(username)
-                .nextCell().addLine(host)
-                .nextCell().addLine(ip)
-                .nextCell().addLine(regOnFormatted);
+                    .nextCell().addLine(username)
+                    .nextCell().addLine(host)
+                    .nextCell().addLine(ip)
+                    .nextCell().addLine(regOnFormatted);
 
             cnt++;
         }

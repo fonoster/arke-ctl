@@ -9,23 +9,21 @@ import com.inamik.text.tables.SimpleTable;
 import com.inamik.text.tables.grid.Border;
 import com.inamik.text.tables.grid.Util;
 
-import java.util.Iterator;
-
 import static java.lang.System.out;
 
 /**
  * @author Pedro Sanders
  * @since v1
  */
-public class CmdGetDomains {
+class CmdGetDomains {
 
     private static CtlUtils ctlUtils;
 
-    public CmdGetDomains(CtlUtils ctlUtils) {
-        this.ctlUtils = ctlUtils;
+    CmdGetDomains(CtlUtils ctlUtils) {
+        CmdGetDomains.ctlUtils = ctlUtils;
     }
 
-    public void printDomains(String ref, String filter) {
+    void printDomains(String ref, String filter) {
         String result = ctlUtils.getWithToken("domains", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
         JsonObject response = gson.fromJson(result, JsonObject.class);
@@ -41,10 +39,7 @@ public class CmdGetDomains {
 
         int cnt = 0;
 
-        Iterator i = domains.iterator();
-
-        while(i.hasNext()) {
-            JsonElement je = (JsonElement) i.next();
+        for (JsonElement je : domains) {
             JsonObject domain = je.getAsJsonObject();
             JsonObject metadata = domain.getAsJsonObject("metadata");
             JsonObject spec = domain.getAsJsonObject("spec");
@@ -58,19 +53,21 @@ public class CmdGetDomains {
 
             try {
                 egressPolicy = context.get("egressPolicy").toString();
-            } catch(NullPointerException ex) {}
+            } catch (NullPointerException ex) {
+            }
 
             try {
                 accessControlList = context.get("accessControlList").toString();
-            } catch(NullPointerException ex) {}
+            } catch (NullPointerException ex) {
+            }
 
             if (ref.isEmpty() || ref.equals(objRef)) {
                 textTable.nextRow()
-                    .nextCell().addLine(objRef)
-                    .nextCell().addLine(name)
-                    .nextCell().addLine(domainUri)
-                    .nextCell().addLine(egressPolicy)
-                    .nextCell().addLine(accessControlList);
+                        .nextCell().addLine(objRef)
+                        .nextCell().addLine(name)
+                        .nextCell().addLine(domainUri)
+                        .nextCell().addLine(egressPolicy)
+                        .nextCell().addLine(accessControlList);
                 cnt++;
             }
         }

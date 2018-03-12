@@ -12,23 +12,23 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
 
-public class FileUtils {
+class FileUtils {
     private ObjectMapper yamlReader;
     private ObjectMapper mapper;
 
-    public FileUtils() {
+    FileUtils() {
         this.yamlReader = new ObjectMapper(new YAMLFactory());
         this.mapper = new ObjectMapper();
     }
 
-    public void writeFile(String path, String text) throws IOException {
+    void writeFile(String path, String text) throws IOException {
         File file = new File(path);
         BufferedWriter out = new BufferedWriter(new FileWriter(file));
         out.write(text);
         out.close();
     }
 
-    public String readFile (String path) throws IOException {
+    String readFile (String path) throws IOException {
         List<String> lines = Files.readAllLines(Paths.get(path), java.nio.charset.StandardCharsets.UTF_8);
         String result = "";
 
@@ -40,7 +40,7 @@ public class FileUtils {
         return result;
     }
 
-    public String getJsonString(String yamlFile) throws IOException {
+    String getJsonString(String yamlFile) throws IOException {
         String yaml = this.readFile(yamlFile);
         Object obj = this.yamlReader.readValue(yaml, java.lang.Object.class);
         return this.mapper.writeValueAsString(obj);

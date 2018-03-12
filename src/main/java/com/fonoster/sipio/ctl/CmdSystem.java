@@ -12,11 +12,11 @@ import java.util.Iterator;
 
 import static java.lang.System.out;
 
-public class CmdSystem {
+class CmdSystem {
 
     private static CtlUtils ctlUtils;
 
-    public CmdSystem(Subparsers subparsers, CtlUtils ctlUtils) {
+    CmdSystem(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser sys = subparsers.addParser("system").aliases("sys").help("shows system information");
         sys.addArgument("subcommand").metavar("subcommand").choices("status", "info", "stop").help("system actions");
 
@@ -31,41 +31,47 @@ public class CmdSystem {
             "  $ sipioctl sys halt"
         ));
 
-        this.ctlUtils = ctlUtils;
+        CmdSystem.ctlUtils = ctlUtils;
     }
 
     void run(String subCommand) {
-        if (subCommand.equals("stop")) {
-            ctlUtils.postWithToken("system/status/down", null);
-            // Server will not respond, so do nothing :P
-            out.println("Done.");
-        } else if (subCommand.equals("status")) {
-            HttpResponse result = ctlUtils.getWithToken("system/status", null);
-            Gson gson = new Gson();
-            String message = gson.fromJson(result.getBody().toString(), JsonObject.class).get("status").getAsString();
-            out.println(message);
-        } else if (subCommand.equals("info")) {
-            HttpResponse result = ctlUtils.getWithToken("system/info", null);
-            Gson gson = new Gson();
-            JsonElement obj = gson.fromJson(result.getBody().toString(), JsonElement.class).getAsJsonObject();
+        switch (subCommand) {
+            case "stop":
+                ctlUtils.postWithToken("system/status/down", null);
+                // Server will not respond, so do nothing :P
+                out.println("Done.");
+                break;
+            case "status": {
+                HttpResponse result = ctlUtils.getWithToken("system/status", null);
+                Gson gson = new Gson();
+                String message = gson.fromJson(result.getBody().toString(), JsonObject.class).get("status").getAsString();
+                out.println(message);
+                break;
+            }
+            case "info": {
+                HttpResponse result = ctlUtils.getWithToken("system/info", null);
+                Gson gson = new Gson();
+                JsonElement obj = gson.fromJson(result.getBody().toString(), JsonElement.class).getAsJsonObject();
 
-            out.println("[System info]");
-            out.println("Server version: " + obj.getAsJsonObject().get("version").getAsString());
-            out.println("API version: " + obj.getAsJsonObject().get("apiVersion").getAsString());
-            out.println("API path: " + obj.getAsJsonObject().get("apiPath").getAsString());
+                out.println("[System info]");
+                out.println("Server version: " + obj.getAsJsonObject().get("version").getAsString());
+                out.println("API version: " + obj.getAsJsonObject().get("apiVersion").getAsString());
+                out.println("API path: " + obj.getAsJsonObject().get("apiPath").getAsString());
 
-            JsonArray ja = obj.getAsJsonObject().getAsJsonArray("env");
-            Iterator<JsonElement> i = ja.iterator();
+                JsonArray ja = obj.getAsJsonObject().getAsJsonArray("env");
+                Iterator<JsonElement> i = ja.iterator();
 
-            out.println("[Env]");
-            while(i.hasNext()) {
-                JsonElement jo = i.next();
-                String var = jo.getAsJsonObject().get("var").getAsString();
-                String value = "not set";
-                if(!jo.getAsJsonObject().get("value").isJsonNull()) {
-                    value = jo.getAsJsonObject().get("value").getAsString();
+                out.println("[Env]");
+                while (i.hasNext()) {
+                    JsonElement jo = i.next();
+                    String var = jo.getAsJsonObject().get("var").getAsString();
+                    String value = "not set";
+                    if (!jo.getAsJsonObject().get("value").isJsonNull()) {
+                        value = jo.getAsJsonObject().get("value").getAsString();
+                    }
+                    out.println(var + "=" + value);
                 }
-                out.println(var + "=" + value);
+                break;
             }
         }
 

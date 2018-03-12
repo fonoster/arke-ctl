@@ -55,7 +55,7 @@ public class Main {
         CmdLocate cmdLocate = new CmdLocate(subparsers, ctlUtils);
         CmdRegistry cmdRegistry = new CmdRegistry(subparsers, ctlUtils);
         CmdSystem cmdSystem = new CmdSystem(subparsers, ctlUtils);
-        CmdLogin cmdLogin = new CmdLogin(subparsers, ctlUtils);
+        CmdLogin cmdLogin = new CmdLogin(subparsers);
 
         try {
             // Variable 'args' is a global coming from the entry point script

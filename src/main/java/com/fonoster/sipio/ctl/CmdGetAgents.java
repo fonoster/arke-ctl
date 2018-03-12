@@ -9,7 +9,6 @@ import com.inamik.text.tables.SimpleTable;
 import com.inamik.text.tables.grid.Border;
 import com.inamik.text.tables.grid.Util;
 
-import java.util.Iterator;
 import java.util.List;
 
 import static java.lang.System.out;
@@ -18,15 +17,15 @@ import static java.lang.System.out;
  * @author Pedro Sanders
  * @since v1
  */
-public class CmdGetAgents {
+class CmdGetAgents {
 
     private static CtlUtils ctlUtils;
 
-    public CmdGetAgents(CtlUtils ctlUtils) {
-        this.ctlUtils = ctlUtils;
+    CmdGetAgents(CtlUtils ctlUtils) {
+        CmdGetAgents.ctlUtils = ctlUtils;
     }
 
-    public void printAgents(String ref, String filter) {
+    void printAgents(String ref, String filter) {
         String result = ctlUtils.getWithToken("agents", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
         JsonObject response = gson.fromJson(result, JsonObject.class);
@@ -41,10 +40,7 @@ public class CmdGetAgents {
 
         int cnt = 0;
 
-        Iterator i = agents.iterator();
-
-        while(i.hasNext()) {
-            JsonElement je = (JsonElement) i.next();
+        for (JsonElement je : agents) {
             JsonObject agent = je.getAsJsonObject();
             JsonObject metadata = agent.getAsJsonObject("metadata");
             JsonObject spec = agent.getAsJsonObject("spec");
@@ -58,10 +54,10 @@ public class CmdGetAgents {
 
             if (ref.isEmpty() || genRef.equals(ref)) {
                 textTable.nextRow()
-                    .nextCell().addLine(genRef)
-                    .nextCell().addLine(username)
-                    .nextCell().addLine(name)
-                    .nextCell().addLine(domains);
+                        .nextCell().addLine(genRef)
+                        .nextCell().addLine(username)
+                        .nextCell().addLine(name)
+                        .nextCell().addLine(domains);
                 cnt++;
             }
         }

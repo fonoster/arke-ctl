@@ -9,7 +9,6 @@ import com.inamik.text.tables.SimpleTable;
 import com.inamik.text.tables.grid.Border;
 import com.inamik.text.tables.grid.Util;
 
-import java.util.Iterator;
 import java.util.List;
 
 import static java.lang.System.out;
@@ -18,15 +17,15 @@ import static java.lang.System.out;
  * @author Pedro Sanders
  * @since v1
  */
-public class CmdGetGateways {
+class CmdGetGateways {
 
     private static CtlUtils ctlUtils;
 
-    public CmdGetGateways(CtlUtils ctlUtils) {
-        this.ctlUtils = ctlUtils;
+    CmdGetGateways(CtlUtils ctlUtils) {
+        CmdGetGateways.ctlUtils = ctlUtils;
     }
 
-    public void printGateways(String ref, String filter) {
+    void printGateways(String ref, String filter) {
         String result = ctlUtils.getWithToken("gateways", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
         JsonObject response = gson.fromJson(result, JsonObject.class);
@@ -42,10 +41,7 @@ public class CmdGetGateways {
 
         int cnt = 0;
 
-        Iterator i = gateways.iterator();
-
-        while(i.hasNext()) {
-            JsonElement je = (JsonElement) i.next();
+        for (JsonElement je : gateways) {
             JsonObject gateway = je.getAsJsonObject();
             JsonObject metadata = gateway.getAsJsonObject("metadata");
             JsonObject spec = gateway.getAsJsonObject("spec");
@@ -61,8 +57,8 @@ public class CmdGetGateways {
             try {
                 List<String> r = gson.fromJson(regService.getAsJsonArray("registries"), List.class);
                 registries = String.join(",", r);
-            } catch(NullPointerException ex) {
-            } catch(ClassCastException ex) {}
+            } catch (NullPointerException | ClassCastException ex) {
+            }
 
             if (ref.isEmpty() || ref.equals(metaRef)) {
 
@@ -70,11 +66,11 @@ public class CmdGetGateways {
                 if (host.isEmpty()) registries = "None";
 
                 textTable.nextRow()
-                    .nextCell().addLine(metaRef)
-                    .nextCell().addLine(username)
-                    .nextCell().addLine(name)
-                    .nextCell().addLine(host)
-                    .nextCell().addLine(registries);
+                        .nextCell().addLine(metaRef)
+                        .nextCell().addLine(username)
+                        .nextCell().addLine(name)
+                        .nextCell().addLine(host)
+                        .nextCell().addLine(registries);
                 cnt++;
             }
         }

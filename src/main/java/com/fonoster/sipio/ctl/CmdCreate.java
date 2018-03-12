@@ -8,16 +8,15 @@ import net.sourceforge.argparse4j.inf.Subparser;
 import net.sourceforge.argparse4j.inf.Subparsers;
 
 import java.nio.file.NoSuchFileException;
-import java.util.Iterator;
 
 import static java.lang.System.out;
 
-public class CmdCreate {
+class CmdCreate {
 
     private static CtlUtils ctlUtils;
     private Gson gson;
 
-    public CmdCreate(Subparsers subparsers, CtlUtils ctlUtils) {
+    CmdCreate(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser create = subparsers.addParser("create").aliases("crea").help("creates new resource(s)");
         create.addArgument("-f").metavar("FILE").help("path to yaml file with a resources(s)");
 
@@ -30,7 +29,7 @@ public class CmdCreate {
             "  $ sipioctl create -f gws.yaml\n"
         ));
 
-        this.ctlUtils = ctlUtils;
+        CmdCreate.ctlUtils = ctlUtils;
         gson = new Gson();
     }
 
@@ -58,10 +57,9 @@ public class CmdCreate {
         JsonElement je = gson.fromJson(data, JsonElement.class);
 
         if(je.isJsonArray()) {
-            Iterator i = je.getAsJsonArray().iterator();
 
-            while(i.hasNext()) {
-                create((JsonElement) i.next());
+            for (JsonElement o : je.getAsJsonArray()) {
+                create(o);
             }
         } else {
             create(je);

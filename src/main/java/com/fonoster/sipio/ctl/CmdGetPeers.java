@@ -9,23 +9,21 @@ import com.inamik.text.tables.SimpleTable;
 import com.inamik.text.tables.grid.Border;
 import com.inamik.text.tables.grid.Util;
 
-import java.util.Iterator;
-
 import static java.lang.System.out;
 
 /**
  * @author Pedro Sanders
  * @since v1
  */
-public class CmdGetPeers {
+class CmdGetPeers {
 
     private static CtlUtils ctlUtils;
 
-    public CmdGetPeers(CtlUtils ctlUtils) {
-        this.ctlUtils = ctlUtils;
+    CmdGetPeers(CtlUtils ctlUtils) {
+        CmdGetPeers.ctlUtils = ctlUtils;
     }
 
-    public void printPeers(String ref, String filter) {
+    void printPeers(String ref, String filter) {
         String result = ctlUtils.getWithToken("peers", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
         JsonObject response = gson.fromJson(result, JsonObject.class);
@@ -40,10 +38,7 @@ public class CmdGetPeers {
 
         int cnt = 0;
 
-        Iterator i = peers.iterator();
-
-        while(i.hasNext()) {
-            JsonElement je = (JsonElement) i.next();
+        for (JsonElement je : peers) {
             JsonObject agent = je.getAsJsonObject();
             JsonObject metadata = agent.getAsJsonObject("metadata");
             JsonObject spec = agent.getAsJsonObject("spec");
@@ -55,19 +50,19 @@ public class CmdGetPeers {
 
             try {
                 device = spec.get("device").getAsString();
-            } catch(NullPointerException ex) {
+            } catch (NullPointerException ex) {
             }
 
-           if (ref.isEmpty() || ref.equals(username)) {
+            if (ref.isEmpty() || ref.equals(username)) {
                 String deviceName = "None";
 
                 if (!device.isEmpty()) deviceName = device;
 
                 textTable.nextRow()
-                    .nextCell().addLine(objRef)
-                    .nextCell().addLine(username)
-                    .nextCell().addLine(name)
-                    .nextCell().addLine(deviceName);
+                        .nextCell().addLine(objRef)
+                        .nextCell().addLine(username)
+                        .nextCell().addLine(name)
+                        .nextCell().addLine(deviceName);
                 cnt++;
             }
         }

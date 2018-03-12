@@ -13,12 +13,12 @@ import java.util.Iterator;
 
 import static java.lang.System.out;
 
-public class CmdApply {
+class CmdApply {
 
     private static CtlUtils ctlUtils;
     private Gson gson;
 
-    public CmdApply(Subparsers subparsers, CtlUtils ctlUtils) {
+    CmdApply(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser apply = subparsers.addParser("apply").help("apply changes over existing resource(s)");
         apply.addArgument("-f").metavar("FILE").help("path to yaml file with a resources(s)");
 
@@ -31,7 +31,7 @@ public class CmdApply {
             "  $ sipioctl apply -f gws.yaml"
         ));
 
-        this.ctlUtils = ctlUtils;
+        CmdApply.ctlUtils = ctlUtils;
         this.gson = new Gson();
     }
 
