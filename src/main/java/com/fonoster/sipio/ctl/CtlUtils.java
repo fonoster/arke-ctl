@@ -1,7 +1,6 @@
 package com.fonoster.sipio.ctl;
 
 import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -14,8 +13,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.security.cert.X509Certificate;
 
-import static java.lang.System.out;
 import static java.lang.System.exit;
+import static java.lang.System.out;
 
 public class CtlUtils {
     private static String accessToken;
@@ -83,10 +82,10 @@ public class CtlUtils {
     }
 
     public HttpResponse getWithToken(String resource, String params) {
-        HttpResponse<JsonNode> result = null;
+        HttpResponse result = null;
 
         try {
-            result = Unirest.get(apiUrl + "/" + resource + "?token=" + accessToken + "&" + params).asJson();
+            result = Unirest.get(apiUrl + "/" + resource + "?token=" + accessToken + "&" + params).asString();
         } catch (UnirestException ex) {
             if (resource.equals("system/status")) {
                 out.println("Down");
