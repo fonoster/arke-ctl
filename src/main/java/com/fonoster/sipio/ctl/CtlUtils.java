@@ -3,6 +3,7 @@ package com.fonoster.sipio.ctl;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -42,8 +43,10 @@ public class CtlUtils {
             SSLContext sslcontext = SSLContext.getInstance("SSL");
             sslcontext.init(null, trustAllCerts, new java.security.SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(sslcontext.getSocketFactory());
-            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext);
-            CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext, new NoopHostnameVerifier());
+            CloseableHttpClient httpclient = HttpClients.custom()
+                    .setSSLSocketFactory(sslsf)
+                    .build();
             Unirest.setHttpClient(httpclient);
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,6 +70,7 @@ public class CtlUtils {
         try {
             result = Unirest.get(apiUrl + "/credentials" ).basicAuth(username, password).asString();
         } catch (UnirestException ex) {
+            ex.printStackTrace();
             out.println("Unable to perform request. Ensure server is up");
             exit(1);
         }
