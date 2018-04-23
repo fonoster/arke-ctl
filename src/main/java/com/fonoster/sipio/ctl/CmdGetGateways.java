@@ -45,17 +45,16 @@ class CmdGetGateways {
             JsonObject gateway = je.getAsJsonObject();
             JsonObject metadata = gateway.getAsJsonObject("metadata");
             JsonObject spec = gateway.getAsJsonObject("spec");
-            JsonObject regService = spec.getAsJsonObject("regService");
-            JsonObject credentials = regService.getAsJsonObject("credentials");
+            JsonObject credentials = spec.getAsJsonObject("credentials");
             String username = credentials.get("username").getAsString();
             String metaRef = metadata.get("ref").getAsString();
             String name = metadata.get("name").getAsString();
 
             String registries = "";
-            String host = regService.get("host").getAsString();
+            String host = spec.get("host").getAsString();
 
             try {
-                List<String> r = gson.fromJson(regService.getAsJsonArray("registries"), List.class);
+                List<String> r = gson.fromJson(spec.getAsJsonArray("registries"), List.class);
                 registries = String.join(",", r);
             } catch (NullPointerException | ClassCastException ex) {
             }
