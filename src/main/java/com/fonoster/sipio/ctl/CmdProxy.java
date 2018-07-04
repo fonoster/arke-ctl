@@ -61,7 +61,7 @@ class CmdProxy {
 
         // Setting Resources Servlet
         ServletHolder defServlet = new ServletHolder(DefaultServlet.class);
-        defServlet.setInitParameter("resourceBase", "./src/main/webapp");
+        defServlet.setInitParameter("resourceBase", "./libs/webapp");
         defServlet.setInitParameter("dirAllowed", "true");
 
         sch.addServlet(proxyServlet, "/api/*");
