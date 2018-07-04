@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=1.0.0-alpha
+VERSION=1.0.1-alpha
 FOLDER_NAME=sipioctl.$VERSION
 
 # Cleanup
@@ -8,7 +8,7 @@ rm -rf $FOLDER_NAME
 
 mkdir -p $FOLDER_NAME/libs
 
-cp libs/* $FOLDER_NAME/libs
+cp -a libs/* $FOLDER_NAME/libs
 cp sipioctl $FOLDER_NAME/
 cp README.md $FOLDER_NAME/
 
