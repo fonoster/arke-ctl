@@ -19,7 +19,7 @@ public class Main {
     public final static String CONFIG_PATH = System.getProperty("user.home") + "/.sipio-access.json";
     public final static String INVALID_ACCESS_TOKEN = "Unable to find a valid access token. Please login";
 
-    static public void main(String... args) throws UnirestException, IOException {
+    static public void main(String... args) throws Exception {
         String accessToken = null;
         String apiUrl = null;
         CtlUtils ctlUtils = null;
@@ -55,6 +55,7 @@ public class Main {
         CmdLocate cmdLocate = new CmdLocate(subparsers, ctlUtils);
         CmdRegistry cmdRegistry = new CmdRegistry(subparsers, ctlUtils);
         CmdSystem cmdSystem = new CmdSystem(subparsers, ctlUtils);
+        CmdProxy cmdProxy = new CmdProxy(subparsers);
         CmdLogin cmdLogin = new CmdLogin(subparsers);
 
         try {
@@ -91,6 +92,9 @@ public class Main {
                 case "login":
                     cmdLogin.run(res.get("apiUrl"), res.get("u"), res.get("p"));
                     break;
+                case "proxy":
+                    cmdProxy.run(apiUrl, accessToken, res.get("port"));
+                    break;
                 default:
                     // This is not possible;
             }
@@ -99,6 +103,8 @@ public class Main {
         } catch (UnirestException ex) {
             System.out.println("Sip I/O server is not running");
             System.exit(0);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }
