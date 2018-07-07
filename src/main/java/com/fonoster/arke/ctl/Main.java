@@ -28,7 +28,7 @@ public class Main {
             .newFor("arkctl")
             .build()
             .defaultHelp(true)
-            .description("arkctl controls the Sip I/O server")
+            .description("arkctl controls the Arke server")
             .epilog("More information at https://github.com/fonoster/arke/wiki");
 
         Subparsers subparsers = parser.addSubparsers().title("Basic Commands").metavar("COMMAND");
@@ -101,7 +101,7 @@ public class Main {
         } catch(ArgumentParserException ex) {
             parser.handleError(ex);
         } catch (UnirestException ex) {
-            System.out.println("Sip I/O server is not running");
+            System.out.println("Arke server is not running");
             System.exit(0);
         } catch (Exception ex) {
             ex.printStackTrace();

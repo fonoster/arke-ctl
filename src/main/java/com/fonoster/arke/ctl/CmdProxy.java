@@ -79,7 +79,7 @@ class CmdProxy {
 
         String url = "http://localhost:" + port;
 
-        out.println(ANSI_GREEN + "Serving Sip I/O Console" + ANSI_RESET);
+        out.println(ANSI_GREEN + "Serving Arke Console" + ANSI_RESET);
         out.println("\nYou can now view the " + ANSI_BOLD + "console" + ANSI_RESET + " in the browser.\n");
         out.println(ANSI_BOLD + "  URL\t" + ANSI_RESET + url);
         out.println("\nKeep in mind that this software is not production ready.");
