@@ -9,7 +9,7 @@ rm -rf $FOLDER_NAME
 mkdir -p $FOLDER_NAME/libs
 
 cp -a libs/* $FOLDER_NAME/libs
-cp sipioctl $FOLDER_NAME/
+cp arkctl $FOLDER_NAME/
 cp README.md $FOLDER_NAME/
 
 tar -czvf $FOLDER_NAME.tar.gz $FOLDER_NAME
