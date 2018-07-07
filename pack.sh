@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 VERSION=1.0.1-alpha
-FOLDER_NAME=sipioctl.$VERSION
+FOLDER_NAME=arke-ctl.$VERSION
 
 # Cleanup
 rm -rf $FOLDER_NAME
