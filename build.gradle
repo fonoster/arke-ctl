@@ -30,4 +30,4 @@ tasks.withType(Jar) {
 }
 
 apply plugin:'application'
-mainClassName = "com.fonoster.arke.ctl.Main"
+mainClassName = "com.fonoster.routr.ctl.Main"

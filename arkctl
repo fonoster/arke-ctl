@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-java -cp libs/arke-ctl-all.jar -Dcom.sun.net.ssl.checkRevocation=true  com.fonoster.arke.ctl.Main ${@}

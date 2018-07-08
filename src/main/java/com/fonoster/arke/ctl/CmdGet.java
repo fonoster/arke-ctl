@@ -1,4 +1,4 @@
-package com.fonoster.arke.ctl;
+package com.fonoster.routr.ctl;
 
 import net.sourceforge.argparse4j.inf.Subparser;
 import net.sourceforge.argparse4j.inf.Subparsers;
@@ -17,11 +17,11 @@ public class CmdGet {
             System.getProperty("line.separator"),
             "Examples:",
             "  # Shows all the agents in the system",
-            "  $ arkctl get agents\n",
+            "  $ rctl get agents\n",
             "  # List a single agent by ref",
-            "  $ arkctl get agent ag3f77f6\n",
+            "  $ rctl get agent ag3f77f6\n",
             "  # Gets did using its reference",
-            "  $ arkctl get dids --filter \"@.metadata.ref=='dd50baa4'"
+            "  $ rctl get dids --filter \"@.metadata.ref=='dd50baa4'"
         ));
         CmdGet.ctlUtils = ctlUtils;
     }

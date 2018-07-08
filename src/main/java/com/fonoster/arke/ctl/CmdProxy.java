@@ -1,4 +1,4 @@
-package com.fonoster.arke.ctl;
+package com.fonoster.routr.ctl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -54,7 +54,7 @@ class CmdProxy {
 
         // Setting Proxy Servlet
         ServletContextHandler sch = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        ServletHolder proxyServlet = new ServletHolder(com.fonoster.arke.proxy.APIProxy.class);
+        ServletHolder proxyServlet = new ServletHolder(com.fonoster.routr.proxy.APIProxy.class);
         proxyServlet.setInitParameter("apiKeyName", "token");
         proxyServlet.setInitParameter("apiKeyValue", token);
         proxyServlet.setInitParameter("proxyTo", proxyTo);
@@ -79,7 +79,7 @@ class CmdProxy {
 
         String url = "http://localhost:" + port;
 
-        out.println(ANSI_GREEN + "Serving Arke Console" + ANSI_RESET);
+        out.println(ANSI_GREEN + "Serving Routr Console" + ANSI_RESET);
         out.println("\nYou can now view the " + ANSI_BOLD + "console" + ANSI_RESET + " in the browser.\n");
         out.println(ANSI_BOLD + "  URL\t" + ANSI_RESET + url);
         out.println("\nKeep in mind that this software is not production ready.");

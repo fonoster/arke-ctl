@@ -1,4 +1,4 @@
-package com.fonoster.arke.ctl;
+package com.fonoster.routr.ctl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -16,7 +16,7 @@ import static java.lang.System.exit;
 import static java.lang.System.out;
 
 public class Main {
-    public final static String CONFIG_PATH = System.getProperty("user.home") + "/.arke-access.json";
+    public final static String CONFIG_PATH = System.getProperty("user.home") + "/.routr-access.json";
     public final static String INVALID_ACCESS_TOKEN = "Unable to find a valid access token. Please login";
 
     static public void main(String... args) throws Exception {
@@ -25,11 +25,11 @@ public class Main {
         CtlUtils ctlUtils = null;
 
         ArgumentParser parser = ArgumentParsers
-            .newFor("arkctl")
+            .newFor("rctl")
             .build()
             .defaultHelp(true)
-            .description("arkctl controls the Arke server")
-            .epilog("More information at https://github.com/fonoster/arke/wiki");
+            .description("rctl controls the Routr server")
+            .epilog("More information at https://github.com/fonoster/routr/wiki");
 
         Subparsers subparsers = parser.addSubparsers().title("Basic Commands").metavar("COMMAND");
 
@@ -101,7 +101,7 @@ public class Main {
         } catch(ArgumentParserException ex) {
             parser.handleError(ex);
         } catch (UnirestException ex) {
-            System.out.println("Arke server is not running");
+            System.out.println("Routr server is not running");
             System.exit(0);
         } catch (Exception ex) {
             ex.printStackTrace();

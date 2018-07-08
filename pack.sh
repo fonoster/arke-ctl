@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-VERSION=1.0.1-alpha
-FOLDER_NAME=arke-ctl.$VERSION
+VERSION=1.0.0-alpha
+FOLDER_NAME=routr-ctl.$VERSION
 
 # Cleanup
 rm -rf $FOLDER_NAME
@@ -9,7 +9,7 @@ rm -rf $FOLDER_NAME
 mkdir -p $FOLDER_NAME/libs
 
 cp -a libs/* $FOLDER_NAME/libs
-cp arkctl $FOLDER_NAME/
+cp rctl $FOLDER_NAME/
 cp README.md $FOLDER_NAME/
 
 tar -czvf $FOLDER_NAME.tar.gz $FOLDER_NAME

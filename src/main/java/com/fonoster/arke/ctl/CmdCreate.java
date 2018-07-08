@@ -1,4 +1,4 @@
-package com.fonoster.arke.ctl;
+package com.fonoster.routr.ctl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -24,9 +24,9 @@ class CmdCreate {
             System.getProperty("line.separator"),
             "`Examples:",
             "  # Creates a new agent from a yaml file",
-            "  $ arkctl crea -f agent.yaml\n\n",
+            "  $ rctl crea -f agent.yaml\n\n",
             "  # Creates a set of gateways from a yaml file\n",
-            "  $ arkctl create -f gws.yaml\n"
+            "  $ rctl create -f gws.yaml\n"
         ));
 
         CmdCreate.ctlUtils = ctlUtils;

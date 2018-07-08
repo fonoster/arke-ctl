@@ -1,4 +1,4 @@
-package com.fonoster.arke.ctl;
+package com.fonoster.routr.ctl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -24,10 +24,10 @@ class CmdDelete {
             System.getProperty("line.separator"),
             "Examples:",
             "  # Deletes resource type Agent using its reference",
-            "  $ arkctl delete agent ag2g4s34\n",
+            "  $ rctl delete agent ag2g4s34\n",
             "  # or use \"del\" alias\n",
             "  # Deletes resource type DIDs using the its parent Gateway reference",
-            "  $ arkctl del did --filter \"@.metadata.gwRef=\"gweef506\""
+            "  $ rctl del did --filter \"@.metadata.gwRef=\"gweef506\""
         ));
 
         CmdDelete.ctlUtils = ctlUtils;

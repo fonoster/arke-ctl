@@ -1,4 +1,4 @@
-package com.fonoster.arke.ctl;
+package com.fonoster.routr.ctl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -26,9 +26,9 @@ class CmdApply {
             System.getProperty("line.separator"),
             "Examples:",
             "  # Apply changes to an existing agent",
-            "  $ arkctl apply -f agent.yaml\n",
+            "  $ rctl apply -f agent.yaml\n",
             "  # Updates a set of gateways",
-            "  $ arkctl apply -f gws.yaml"
+            "  $ rctl apply -f gws.yaml"
         ));
 
         CmdApply.ctlUtils = ctlUtils;

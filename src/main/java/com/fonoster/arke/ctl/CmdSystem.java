@@ -1,4 +1,4 @@
-package com.fonoster.arke.ctl;
+package com.fonoster.routr.ctl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -24,11 +24,11 @@ class CmdSystem {
             System.getProperty("line.separator"),
             "Examples:",
             "  # Shows system information like version and apiPath",
-            "  $ arkctl system info\n",
+            "  $ rctl system info\n",
             "  # Shows the current system status",
-            "  $ arkctl sys status\n",
+            "  $ rctl sys status\n",
             "  # Stops the system",
-            "  $ arkctl sys halt"
+            "  $ rctl sys halt"
         ));
 
         CmdSystem.ctlUtils = ctlUtils;
