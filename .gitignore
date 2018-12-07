@@ -13,6 +13,7 @@ config/*.yml
 .idea
 *.iml
 *.ipr
+package-lock.json
 
 # User-specific stuff:
 .idea/workspace.xml

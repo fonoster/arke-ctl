@@ -1,0 +1,40 @@
+{
+  "name": "routr-ctl",
+  "version": "1.0.0",
+  "description": "command-line tool for Routr SIP server. It uses the server RESTFul API to allow for remote control of the server.",
+  "main": "index.js",
+  "scripts": {
+    "build": "gradle build",
+    "pack": "sh pack.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fonoster/routr-ctl.git"
+  },
+  "keywords": [
+    "cli",
+    "rctl",
+    "routr",
+    "sip",
+    "webrtc",
+    "voip",
+    "server",
+    "softphone",
+    "asterisk",
+    "freeswitch",
+    "instant-messaging",
+    "ims"
+  ],
+  "author": "Pedro Sanders",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fonoster/routr-ctl/issues"
+  },
+  "homepage": "https://routr.io",
+  "bin": {
+    "rctl": "./rctl.js"
+  },
+  "dependencies": {
+    "shelljs": "^0.8.3"
+  }
+}
