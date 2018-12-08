@@ -1,6 +1,6 @@
 # Routr Command-Line Tool [![Build Status][travis-badge]][travis-ci] [![Node Version][node-badge]][npm] [![NPM version][npm-badge]][npm]
 
-The `rctl` is a command line interface tha runs commands against your `Routr` servers. This overview covers the `rctl` syntax, describes the command operations and provides common examples. For details about each command, including all the supported flags and subcommands, see the `rctl` reference documentation.
+The `rctl` is a command line interface that runs commands against your `Routr` servers. This overview covers the `rctl` syntax, describes the command operations and provides common examples. For details about each command, including all the supported flags and subcommands, see the `rctl` reference documentation.
 
 ## Installation
 
