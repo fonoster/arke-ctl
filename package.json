@@ -1,7 +1,7 @@
 {
   "name": "routr-ctl",
-  "version": "1.0.0",
-  "description": "command-line tool for Routr SIP server. It uses the server RESTFul API to allow for remote control of the server.",
+  "version": "1.0.1",
+  "description": "Command-Line Interface for Routr",
   "main": "index.js",
   "scripts": {
     "build": "gradle build",
@@ -37,5 +37,9 @@
   },
   "dependencies": {
     "shelljs": "^0.8.3"
+  },
+  "preferGlobal": true,
+  "engines": {
+    "node": ">= 6.0.0"
   }
 }
