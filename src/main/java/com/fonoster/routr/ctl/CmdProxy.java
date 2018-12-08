@@ -36,7 +36,7 @@ class CmdProxy {
         // Temporary solution to disabl those anoying log messages
         java.lang.System.setProperty("org.eclipse.jetty.LEVEL", "ERROR");
         org.apache.log4j.BasicConfigurator.configure(new org.apache.log4j.varia.NullAppender());
-        Subparser proxy = subparsers.addParser("proxy").help("run a proxy to the server");
+        Subparser proxy = subparsers.addParser("proxy").help("run a proxy to the server (alpha)");
         proxy.addArgument("-p", "--port").type(Integer.class).setDefault(8000).help("The port on which to run the proxy");
     }
 
@@ -61,7 +61,7 @@ class CmdProxy {
 
         // Setting Resources Servlet
         ServletHolder defServlet = new ServletHolder(DefaultServlet.class);
-        defServlet.setInitParameter("resourceBase", "./libs/webapp");
+        defServlet.setInitParameter("resourceBase", System.getenv("ROUTR_WEBAPP"));
         defServlet.setInitParameter("dirAllowed", "true");
 
         sch.addServlet(proxyServlet, "/api/*");
