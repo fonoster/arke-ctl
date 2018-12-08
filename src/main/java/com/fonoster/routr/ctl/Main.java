@@ -29,7 +29,7 @@ public class Main {
             .build()
             .defaultHelp(true)
             .description("rctl controls the Routr server")
-            .epilog("More information at https://github.com/fonoster/routr/wiki");
+            .epilog("More information at https://routr.io");
 
         Subparsers subparsers = parser.addSubparsers().title("Basic Commands").metavar("COMMAND");
 

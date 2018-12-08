@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "gradle build",
-    "pack": "sh pack.sh"
+    "pack": "sh pack.sh",
+    "test": "echo no-op"
   },
   "repository": {
     "type": "git",
