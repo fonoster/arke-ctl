@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-java -cp libs/sipioctl-all.jar -Dcom.sun.net.ssl.checkRevocation=true  com.fonoster.sipio.ctl.Main ${@}
