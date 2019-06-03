@@ -1,0 +1,8 @@
+src
+build
+pack.sh
+settings.gradle
+build.gradle
+.travis.yml
+.git
+.gradle
