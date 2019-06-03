@@ -70,7 +70,6 @@ public class CtlUtils {
         try {
             result = Unirest.get(apiUrl + "/credentials" ).basicAuth(username, password).asString();
         } catch (UnirestException ex) {
-            ex.printStackTrace();
             out.println("Unable to perform request. Ensure server is up");
             exit(1);
         }
@@ -97,8 +96,6 @@ public class CtlUtils {
                 out.println("Unable to perform request. Ensure server is up");
             }
            exit(1);
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
 
         errorHandling(result);
@@ -180,4 +177,3 @@ public class CtlUtils {
         }
     }
 }
-
