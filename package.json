@@ -1,6 +1,6 @@
 {
   "name": "routr-ctl",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Command-Line Interface for Routr",
   "main": "index.js",
   "scripts": {

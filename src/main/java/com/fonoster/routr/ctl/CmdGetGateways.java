@@ -34,9 +34,9 @@ class CmdGetGateways {
         SimpleTable textTable = SimpleTable.of()
             .nextRow()
             .nextCell().addLine("REF")
-            .nextCell().addLine("USER")
             .nextCell().addLine("DESC")
             .nextCell().addLine("HOST")
+            .nextCell().addLine("AUTH TYPE")
             .nextCell().addLine("REGS");
 
         int cnt = 0;
@@ -46,7 +46,12 @@ class CmdGetGateways {
             JsonObject metadata = gateway.getAsJsonObject("metadata");
             JsonObject spec = gateway.getAsJsonObject("spec");
             JsonObject credentials = spec.getAsJsonObject("credentials");
-            String username = credentials.get("username").getAsString();
+            String authType = "StaticIP";
+
+            if(spec.has("credentials")) {
+                authType = "UserPass";
+            }
+
             String metaRef = metadata.get("ref").getAsString();
             String name = metadata.get("name").getAsString();
 
@@ -66,9 +71,9 @@ class CmdGetGateways {
 
                 textTable.nextRow()
                         .nextCell().addLine(metaRef)
-                        .nextCell().addLine(username)
                         .nextCell().addLine(name)
                         .nextCell().addLine(host)
+                        .nextCell().addLine(authType)
                         .nextCell().addLine(registries);
                 cnt++;
             }
