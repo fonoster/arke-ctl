@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.lang.InterruptedException;
 import java.awt.HeadlessException;
 import java.net.URISyntaxException;
+import java.lang.UnsatisfiedLinkError;
+
 import static java.lang.System.out;
 
 class CmdProxy {
@@ -89,7 +91,7 @@ class CmdProxy {
             Desktop desktop = java.awt.Desktop.getDesktop();
             URI oURL = new URI(url);
             desktop.browse(oURL);
-        } catch (HeadlessException | URISyntaxException | IOException e) {
+        } catch (UnsatisfiedLinkError | HeadlessException | URISyntaxException | IOException e) {
             // Simply ignore
         }
     }
