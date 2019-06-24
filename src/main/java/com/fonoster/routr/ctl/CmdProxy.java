@@ -11,7 +11,6 @@ import com.inamik.text.tables.grid.Util;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import net.sourceforge.argparse4j.inf.Subparser;
 import net.sourceforge.argparse4j.inf.Subparsers;
-
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -22,7 +21,8 @@ import java.net.URL;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.lang.InterruptedException;
-
+import java.awt.HeadlessException;
+import java.net.URISyntaxException;
 import static java.lang.System.out;
 
 class CmdProxy {
@@ -89,8 +89,8 @@ class CmdProxy {
             Desktop desktop = java.awt.Desktop.getDesktop();
             URI oURL = new URI(url);
             desktop.browse(oURL);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (HeadlessException | URISyntaxException | IOException e) {
+            // Simply ignore
         }
     }
 
