@@ -15,19 +15,19 @@ import static java.lang.System.out;
  * @author Pedro Sanders
  * @since v1
  */
-class CmdGetDIDs {
+class CmdGetNumbers {
 
     private static CtlUtils ctlUtils;
 
-    CmdGetDIDs(CtlUtils ctlUtils) {
-        CmdGetDIDs.ctlUtils = ctlUtils;
+    CmdGetNumbers(CtlUtils ctlUtils) {
+        CmdGetNumbers.ctlUtils = ctlUtils;
     }
 
-    void printDIDs(String ref, String filter) {
-        String result = ctlUtils.getWithToken("dids", "filter=" + filter).getBody().toString();
+    void printNumbers(String ref, String filter) {
+        String result = ctlUtils.getWithToken("numbers", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
         JsonObject response = gson.fromJson(result, JsonObject.class);
-        JsonArray dids = response.getAsJsonArray("result");
+        JsonArray numbers = response.getAsJsonArray("result");
 
         SimpleTable textTable = SimpleTable.of()
             .nextRow()
@@ -39,11 +39,11 @@ class CmdGetDIDs {
 
         int cnt = 0;
 
-        for (JsonElement je : dids) {
-            JsonObject did = je.getAsJsonObject();
-            JsonObject metadata = did.getAsJsonObject("metadata");
+        for (JsonElement je : numbers) {
+            JsonObject number = je.getAsJsonObject();
+            JsonObject metadata = number.getAsJsonObject("metadata");
             JsonObject geoInfo = metadata.getAsJsonObject("geoInfo");
-            JsonObject spec = did.getAsJsonObject("spec");
+            JsonObject spec = number.getAsJsonObject("spec");
             JsonObject location = spec.getAsJsonObject("location");
             String telUrl = location.get("telUrl").getAsString();
             String aorLink = location.get("aorLink").getAsString();

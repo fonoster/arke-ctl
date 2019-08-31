@@ -178,21 +178,21 @@ class CmdApply {
                         .get("metadata").getAsJsonObject()
                             .get("ref").getAsString();
             }
-        } else if (kind.equalsIgnoreCase("did")) {
+        } else if (kind.equalsIgnoreCase("number")) {
             String telUrl = object
                 .get("spec").getAsJsonObject()
                     .get("location").getAsJsonObject()
                         .get("telUrl").getAsString();
 
-            String response = ctlUtils.getWithToken("dids",
+            String response = ctlUtils.getWithToken("numbers",
                 "filter=@.spec.location.telUrl=='" + telUrl + "'")
                     .getBody().toString();
 
             JsonObject res = gson.fromJson(response, JsonObject.class);
-            JsonArray dids = res.getAsJsonArray("result");
+            JsonArray numbers = res.getAsJsonArray("result");
 
-            if (dids.iterator().hasNext()) {
-                return  dids.iterator()
+            if (numbers.iterator().hasNext()) {
+                return  numbers.iterator()
                     .next().getAsJsonObject()
                         .get("metadata").getAsJsonObject()
                             .get("ref").getAsString();
