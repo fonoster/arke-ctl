@@ -1,4 +1,4 @@
-package com.fonoster.routr.ctl;
+package io.routr.ctl;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;

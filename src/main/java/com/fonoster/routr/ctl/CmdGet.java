@@ -1,4 +1,4 @@
-package com.fonoster.routr.ctl;
+package io.routr.ctl;
 
 import net.sourceforge.argparse4j.inf.Subparser;
 import net.sourceforge.argparse4j.inf.Subparsers;

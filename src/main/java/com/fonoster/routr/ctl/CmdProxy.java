@@ -1,4 +1,4 @@
-package com.fonoster.routr.ctl;
+package io.routr.ctl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -56,7 +56,7 @@ class CmdProxy {
 
         // Setting Proxy Servlet
         ServletContextHandler sch = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        ServletHolder proxyServlet = new ServletHolder(com.fonoster.routr.proxy.APIProxy.class);
+        ServletHolder proxyServlet = new ServletHolder(io.routr.proxy.APIProxy.class);
         proxyServlet.setInitParameter("apiKeyName", "token");
         proxyServlet.setInitParameter("apiKeyValue", token);
         proxyServlet.setInitParameter("proxyTo", proxyTo);

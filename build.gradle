@@ -3,6 +3,9 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '5.1.0'
 }
 
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
 dependencies {
     compile "com.mashape.unirest:unirest-java:1.4.9"
     compile "net.sourceforge.argparse4j:argparse4j:0.8.1"
@@ -30,4 +33,4 @@ tasks.withType(Jar) {
 }
 
 apply plugin:'application'
-mainClassName = "com.fonoster.routr.ctl.Main"
+mainClassName = "io.routr.ctl.Main"

@@ -1,4 +1,4 @@
-package com.fonoster.routr.ctl;
+package io.routr.ctl;
 
 import com.google.gson.JsonObject;
 import net.sourceforge.argparse4j.inf.Subparser;

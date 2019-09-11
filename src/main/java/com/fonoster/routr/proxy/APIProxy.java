@@ -1,4 +1,4 @@
-package com.fonoster.routr.proxy;
+package io.routr.proxy;
 
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.util.ssl.SslContextFactory;

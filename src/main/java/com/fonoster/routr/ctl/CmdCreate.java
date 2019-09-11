@@ -1,4 +1,4 @@
-package com.fonoster.routr.ctl;
+package io.routr.ctl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
