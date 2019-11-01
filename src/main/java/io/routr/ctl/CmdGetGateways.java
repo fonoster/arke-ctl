@@ -26,10 +26,10 @@ class CmdGetGateways {
     }
 
     void printGateways(String ref, String filter) {
-        String result = ctlUtils.getWithToken("gateways", "filter=" + filter).getBody().toString();
+        String response = ctlUtils.getWithToken("gateways", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
-        JsonObject response = gson.fromJson(result, JsonObject.class);
-        JsonArray gateways = response.getAsJsonArray("result");
+        JsonObject jObject = gson.fromJson(response, JsonObject.class);
+        JsonArray gateways = jObject.getAsJsonArray("data");
 
         SimpleTable textTable = SimpleTable.of()
             .nextRow()

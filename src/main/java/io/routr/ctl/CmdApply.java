@@ -80,8 +80,8 @@ class CmdApply {
             return;
         }
 
-        HttpResponse result = ctlUtils.putWithToken(kind + "/" + ref, gson.toJson(je));
-        String message = gson.fromJson(result.getBody().toString(), JsonObject.class).get("message").getAsString();
+        HttpResponse response = ctlUtils.putWithToken(kind + "/" + ref, gson.toJson(je));
+        String message = gson.fromJson(response.getBody().toString(), JsonObject.class).get("message").getAsString();
         out.println(message);
     }
 
@@ -103,7 +103,7 @@ class CmdApply {
                     .getBody().toString();
 
             JsonObject res = gson.fromJson(response, JsonObject.class);
-            JsonArray agents = res.getAsJsonArray("result");
+            JsonArray agents = res.getAsJsonArray("data");
 
             Iterator i = agents.iterator();
 
@@ -132,7 +132,7 @@ class CmdApply {
                     .getBody().toString();
 
             JsonObject res = gson.fromJson(response, JsonObject.class);
-            JsonArray domain = res.getAsJsonArray("result");
+            JsonArray domain = res.getAsJsonArray("data");
 
             if (domain.iterator().hasNext()) {
                 return  domain.iterator()
@@ -151,7 +151,7 @@ class CmdApply {
                     .getBody().toString();
 
             JsonObject res = gson.fromJson(response, JsonObject.class);
-            JsonArray peers = res.getAsJsonArray("result");
+            JsonArray peers = res.getAsJsonArray("data");
 
             if (peers.iterator().hasNext()) {
                 return  peers.iterator()
@@ -170,7 +170,7 @@ class CmdApply {
                     .getBody().toString();
 
             JsonObject res = gson.fromJson(response, JsonObject.class);
-            JsonArray gateways = res.getAsJsonArray("result");
+            JsonArray gateways = res.getAsJsonArray("data");
 
             if (gateways.iterator().hasNext()) {
                 return  gateways.iterator()
@@ -189,7 +189,7 @@ class CmdApply {
                     .getBody().toString();
 
             JsonObject res = gson.fromJson(response, JsonObject.class);
-            JsonArray numbers = res.getAsJsonArray("result");
+            JsonArray numbers = res.getAsJsonArray("data");
 
             if (numbers.iterator().hasNext()) {
                 return  numbers.iterator()

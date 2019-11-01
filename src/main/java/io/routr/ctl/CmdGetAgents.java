@@ -26,10 +26,10 @@ class CmdGetAgents {
     }
 
     void printAgents(String ref, String filter) {
-        String result = ctlUtils.getWithToken("agents", "filter=" + filter).getBody().toString();
+        String response = ctlUtils.getWithToken("agents", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
-        JsonObject response = gson.fromJson(result, JsonObject.class);
-        JsonArray agents = response.getAsJsonArray("result");
+        JsonObject jObject = gson.fromJson(response, JsonObject.class);
+        JsonArray agents = jObject.getAsJsonArray("data");
 
         SimpleTable textTable = SimpleTable.of()
             .nextRow()

@@ -24,10 +24,10 @@ class CmdGetDomains {
     }
 
     void printDomains(String ref, String filter) {
-        String result = ctlUtils.getWithToken("domains", "filter=" + filter).getBody().toString();
+        String response = ctlUtils.getWithToken("domains", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
-        JsonObject response = gson.fromJson(result, JsonObject.class);
-        JsonArray domains = response.getAsJsonArray("result");
+        JsonObject jObject = gson.fromJson(response, JsonObject.class);
+        JsonArray domains = jObject.getAsJsonArray("data");
 
         SimpleTable textTable = SimpleTable.of()
             .nextRow()

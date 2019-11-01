@@ -23,10 +23,10 @@ class CmdLocate {
     }
 
     void run() throws UnirestException {
-        String result = ctlUtils.getWithToken("location", "").getBody().toString();
+        String response = ctlUtils.getWithToken("location", "").getBody().toString();
         Gson gson = new Gson();
-        JsonObject response = gson.fromJson(result, JsonObject.class);
-        JsonArray locEntries = response.getAsJsonArray("result");
+        JsonObject jObject = gson.fromJson(response, JsonObject.class);
+        JsonArray locEntries = jObject.getAsJsonArray("data");
 
         SimpleTable textTable = SimpleTable.of()
             .nextRow()

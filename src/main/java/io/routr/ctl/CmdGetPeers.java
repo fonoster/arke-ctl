@@ -24,10 +24,10 @@ class CmdGetPeers {
     }
 
     void printPeers(String ref, String filter) {
-        String result = ctlUtils.getWithToken("peers", "filter=" + filter).getBody().toString();
+        String response = ctlUtils.getWithToken("peers", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
-        JsonObject response = gson.fromJson(result, JsonObject.class);
-        JsonArray peers = response.getAsJsonArray("result");
+        JsonObject jObject = gson.fromJson(response, JsonObject.class);
+        JsonArray peers = jObject.getAsJsonArray("data");
 
         SimpleTable textTable = SimpleTable.of()
             .nextRow()

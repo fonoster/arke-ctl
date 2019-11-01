@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=1.0.6
+VERSION=1.0.8 
 FOLDER_NAME=routr-ctl.$VERSION
 
 # Cleanup

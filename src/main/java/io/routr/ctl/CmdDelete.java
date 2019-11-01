@@ -41,10 +41,10 @@ class CmdDelete {
 
         if(!resource.endsWith("s")) resource = resource + "s";
 
-        HttpResponse result = ctlUtils.deleteWithToken(resource + '/' + ref, "filter=" + filter);
+        HttpResponse response = ctlUtils.deleteWithToken(resource + '/' + ref, "filter=" + filter);
 
         Gson gson = new Gson();
-        String message = gson.fromJson(result.getBody().toString(), JsonObject.class).get("message").getAsString();
+        String message = gson.fromJson(response.getBody().toString(), JsonObject.class).get("message").getAsString();
         out.println(message);
     }
 }

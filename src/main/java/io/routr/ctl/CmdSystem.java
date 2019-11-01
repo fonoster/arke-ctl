@@ -48,16 +48,16 @@ class CmdSystem {
                 out.println("Reloaded configuration from file.");
                 break;
             case "status": {
-                HttpResponse result = ctlUtils.getWithToken("system/status", null);
+                HttpResponse response = ctlUtils.getWithToken("system/status", null);
                 Gson gson = new Gson();
-                String message = gson.fromJson(result.getBody().toString(), JsonObject.class).get("status").getAsString();
+                String message = gson.fromJson(response.getBody().toString(), JsonObject.class).get("status").getAsString();
                 out.println(message);
                 break;
             }
             case "info": {
-                HttpResponse result = ctlUtils.getWithToken("system/info", null);
+                HttpResponse response = ctlUtils.getWithToken("system/info", null);
                 Gson gson = new Gson();
-                JsonElement obj = gson.fromJson(result.getBody().toString(), JsonElement.class).getAsJsonObject();
+                JsonElement obj = gson.fromJson(response.getBody().toString(), JsonElement.class).getAsJsonObject();
 
                 out.println("[System info]");
                 out.println("Server version: " + obj.getAsJsonObject().get("version").getAsString());

@@ -69,8 +69,8 @@ class CmdCreate {
     private void create(JsonElement je) {
         JsonObject jo = je.getAsJsonObject();
         String collection = jo.getAsJsonObject().get("kind").getAsString().toLowerCase() + "s";
-        HttpResponse result = ctlUtils.postWithToken(collection, gson.toJson(je));
-        JsonObject jObject = gson.fromJson(result.getBody().toString(), JsonObject.class);
+        HttpResponse response = ctlUtils.postWithToken(collection, gson.toJson(je));
+        JsonObject jObject = gson.fromJson(response.getBody().toString(), JsonObject.class);
         String message = jObject.get("message").getAsString();
         out.println(message);
     }

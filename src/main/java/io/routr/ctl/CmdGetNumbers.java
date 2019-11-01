@@ -24,10 +24,10 @@ class CmdGetNumbers {
     }
 
     void printNumbers(String ref, String filter) {
-        String result = ctlUtils.getWithToken("numbers", "filter=" + filter).getBody().toString();
+        String response = ctlUtils.getWithToken("numbers", "filter=" + filter).getBody().toString();
         Gson gson = new Gson();
-        JsonObject response = gson.fromJson(result, JsonObject.class);
-        JsonArray numbers = response.getAsJsonArray("result");
+        JsonObject jObject = gson.fromJson(response, JsonObject.class);
+        JsonArray numbers = jObject.getAsJsonArray("data");
 
         SimpleTable textTable = SimpleTable.of()
             .nextRow()

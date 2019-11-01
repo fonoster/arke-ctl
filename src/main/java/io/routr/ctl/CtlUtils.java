@@ -65,30 +65,30 @@ public class CtlUtils {
     }
 
     String getToken() {
-        HttpResponse<String> result = null;
+        HttpResponse<String> response = null;
 
         try {
-            result = Unirest.get(apiUrl + "/credentials" ).basicAuth(username, password).asString();
+            response = Unirest.get(apiUrl + "/credentials" ).basicAuth(username, password).asString();
         } catch (UnirestException ex) {
             out.println("Unable to perform request. Ensure server is up");
             exit(1);
         }
 
-        if (result.getStatus() == 401) {
+        if (response.getStatus() == 401) {
             out.println("Unable to retrieve token. Please verify your credentials");
             exit(1);
         }
 
-        errorHandling(result);
+        errorHandling(response);
 
-        return result.getBody();
+        return response.getBody();
     }
 
     public HttpResponse getWithToken(String resource, String params) {
-        HttpResponse result = null;
+        HttpResponse response = null;
 
         try {
-            result = Unirest.get(apiUrl + "/" + resource + "?token=" + accessToken + "&" + params).asString();
+            response = Unirest.get(apiUrl + "/" + resource + "?token=" + accessToken + "&" + params).asString();
         } catch (UnirestException ex) {
             if (resource.equals("system/status")) {
                 out.println("Down");
@@ -98,19 +98,19 @@ public class CtlUtils {
            exit(1);
         }
 
-        errorHandling(result);
+        errorHandling(response);
 
-        return result;
+        return response;
     }
 
     HttpResponse postWithToken(String resource, String data) {
-        HttpResponse result = null;
+        HttpResponse response = null;
 
         try {
             if (data != null && !data.isEmpty()) {
-                result = Unirest.post(apiUrl + "/" + resource + "?token=" + accessToken).body(data).asString();
+                response = Unirest.post(apiUrl + "/" + resource + "?token=" + accessToken).body(data).asString();
             } else {
-                result = Unirest.post(apiUrl + "/" + resource + "?token=" + accessToken).asString();
+                response = Unirest.post(apiUrl + "/" + resource + "?token=" + accessToken).asString();
             }
         } catch (UnirestException ex) {
             if (resource.equals("system/status/down")) {
@@ -121,57 +121,57 @@ public class CtlUtils {
             exit(1);
         }
 
-        errorHandling(result);
+        errorHandling(response);
 
-        return result;
+        return response;
     }
 
     HttpResponse putWithToken(String resource, String data) {
-        HttpResponse result = null;
+        HttpResponse response = null;
 
         try {
             if (data != null && !data.isEmpty()) {
-                result = Unirest.put(apiUrl + "/" + resource + "?token=" + accessToken).body(data).asString();
+                response = Unirest.put(apiUrl + "/" + resource + "?token=" + accessToken).body(data).asString();
             } else {
-                result = Unirest.put(apiUrl + "/" + resource + "?token=" + accessToken).asString();
+                response = Unirest.put(apiUrl + "/" + resource + "?token=" + accessToken).asString();
             }
         } catch (UnirestException ex) {
             out.println("Unable to perform request. Ensure server is up");
             exit(1);
         }
 
-        errorHandling(result);
+        errorHandling(response);
 
-        return result;
+        return response;
     }
 
     HttpResponse deleteWithToken(String resource, String params) {
-        HttpResponse result = null;
+        HttpResponse response = null;
 
         try {
-            result = Unirest.delete(apiUrl + "/" + resource + "?token=" + accessToken + "&" + params).asString();
+            response = Unirest.delete(apiUrl + "/" + resource + "?token=" + accessToken + "&" + params).asString();
         } catch (UnirestException ex) {
             out.println("Unable to perform request. Ensure server is up");
             exit(1);
         }
 
-        errorHandling(result);
+        errorHandling(response);
 
-        return result;
+        return response;
     }
 
-    private void errorHandling(HttpResponse result) {
-        if (result.getStatus() == 404) {
+    private void errorHandling(HttpResponse response) {
+        if (response.getStatus() == 404) {
             out.println("Invalid api path");
             exit(1);
         }
 
-        if (result.getStatus() == 401) {
+        if (response.getStatus() == 401) {
             out.println(Main.INVALID_ACCESS_TOKEN);
             exit(1);
         }
 
-        if (result.getStatus() == 500) {
+        if (response.getStatus() == 500) {
             out.println("Internal server error");
             exit(1);
         }
