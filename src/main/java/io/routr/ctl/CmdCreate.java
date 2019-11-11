@@ -57,7 +57,6 @@ class CmdCreate {
         JsonElement je = gson.fromJson(data, JsonElement.class);
 
         if(je.isJsonArray()) {
-
             for (JsonElement o : je.getAsJsonArray()) {
                 create(o);
             }
@@ -69,7 +68,7 @@ class CmdCreate {
     private void create(JsonElement je) {
         JsonObject jo = je.getAsJsonObject();
         String collection = jo.getAsJsonObject().get("kind").getAsString().toLowerCase() + "s";
-        HttpResponse response = ctlUtils.postWithToken(collection, gson.toJson(je));
+        HttpResponse response = ctlUtils.postWithToken(collection, gson.toJson(je), null);
         JsonObject jObject = gson.fromJson(response.getBody().toString(), JsonObject.class);
         String message = jObject.get("message").getAsString();
         out.println(message);

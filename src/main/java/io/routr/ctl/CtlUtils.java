@@ -103,14 +103,16 @@ public class CtlUtils {
         return response;
     }
 
-    HttpResponse postWithToken(String resource, String data) {
+    HttpResponse postWithToken(String resource, String data, String params) {
         HttpResponse response = null;
 
         try {
             if (data != null && !data.isEmpty()) {
-                response = Unirest.post(apiUrl + "/" + resource + "?token=" + accessToken).body(data).asString();
+                response = Unirest.post(apiUrl + "/" + resource + "?token="
+                    + accessToken + "&" + params).body(data).asString();
             } else {
-                response = Unirest.post(apiUrl + "/" + resource + "?token=" + accessToken).asString();
+                response = Unirest.post(apiUrl + "/" + resource + "?token="
+                    + accessToken + "&" + params).asString();
             }
         } catch (UnirestException ex) {
             if (resource.equals("system/status/down")) {

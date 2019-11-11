@@ -44,7 +44,6 @@ public class Main {
                 apiUrl = jo.get("apiUrl").getAsString();
                 accessToken = jo.get("token").getAsString();
             }
-
             ctlUtils = new CtlUtils(apiUrl, accessToken);
         }
 
@@ -87,7 +86,7 @@ public class Main {
                     break;
                 case "system":
                 case "sys":
-                    cmdSystem.run(res.get("subcommand"));
+                    cmdSystem.run(res.get("subcommand"), res.get("now"));
                     break;
                 case "login":
                     cmdLogin.run(res.get("apiUrl"), res.get("u"), res.get("p"));

@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.mashape.unirest.http.HttpResponse;
 import net.sourceforge.argparse4j.inf.Subparser;
 import net.sourceforge.argparse4j.inf.Subparsers;
+import net.sourceforge.argparse4j.impl.Arguments;
 
 import java.util.Iterator;
 
@@ -19,6 +20,7 @@ class CmdSystem {
     CmdSystem(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser sys = subparsers.addParser("system").aliases("sys").help("shows system information");
         sys.addArgument("subcommand").metavar("subcommand").choices("status", "info", "stop", "reload").help("system actions");
+        sys.addArgument("--now").dest("now").action(Arguments.storeTrue()).setDefault(false).help("stop the server now");
 
         sys.epilog(String.join(
             System.getProperty("line.separator"),
@@ -28,7 +30,7 @@ class CmdSystem {
             "  # Shows the current system status",
             "  $ rctl sys status\n",
             "  # Stops the system",
-            "  $ rctl sys stop",
+            "  $ rctl sys stop --now",
             "  # Reloads the system configuration from file",
             "  $ rctl sys reload"
         ));
@@ -36,15 +38,18 @@ class CmdSystem {
         CmdSystem.ctlUtils = ctlUtils;
     }
 
-    void run(String subCommand) {
+    void run(String subCommand, boolean nowFlag) {
         switch (subCommand) {
             case "stop":
-                ctlUtils.postWithToken("system/status/down", null);
-                // Server will not respond, so do nothing :P
+                if (nowFlag) {
+                    ctlUtils.postWithToken("system/status/down", null, "now=true");
+                } else {
+                    ctlUtils.postWithToken("system/status/down", null, null);
+                }
                 out.println("Done.");
                 break;
             case "reload":
-                ctlUtils.postWithToken("system/status/reload", null);
+                ctlUtils.postWithToken("system/status/reload", null, null);
                 out.println("Reloaded configuration from file.");
                 break;
             case "status": {
