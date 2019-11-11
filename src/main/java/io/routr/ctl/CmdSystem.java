@@ -19,8 +19,8 @@ class CmdSystem {
 
     CmdSystem(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser sys = subparsers.addParser("system").aliases("sys").help("shows system information");
-        sys.addArgument("subcommand").metavar("subcommand").choices("status", "info", "stop", "reload").help("system actions");
-        sys.addArgument("--now").dest("now").action(Arguments.storeTrue()).setDefault(false).help("stop the server now");
+        sys.addArgument("subcommand").metavar("subcommand").choices("status", "info", "stop").help("system actions");
+        sys.addArgument("--now").dest("now").action(Arguments.storeTrue()).setDefault(false).help("use with `stop` to shutdown the server immediately");
 
         sys.epilog(String.join(
             System.getProperty("line.separator"),
@@ -30,9 +30,7 @@ class CmdSystem {
             "  # Shows the current system status",
             "  $ rctl sys status\n",
             "  # Stops the system",
-            "  $ rctl sys stop --now",
-            "  # Reloads the system configuration from file",
-            "  $ rctl sys reload"
+            "  $ rctl sys stop --now"
         ));
 
         CmdSystem.ctlUtils = ctlUtils;
@@ -47,10 +45,6 @@ class CmdSystem {
                     ctlUtils.postWithToken("system/status/down", null, null);
                 }
                 out.println("Done.");
-                break;
-            case "reload":
-                ctlUtils.postWithToken("system/status/reload", null, null);
-                out.println("Reloaded configuration from file.");
                 break;
             case "status": {
                 HttpResponse response = ctlUtils.getWithToken("system/status", null);
