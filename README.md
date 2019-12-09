@@ -14,7 +14,7 @@ The command-line tool is now globally accessible.
 
 ## Login to a Routr server
 
-To log in to a Routr server and being issuing commands run the following commands.
+To login to a Routr server run the following commands.
 
 ```bash
 rctl login https://127.0.0.1:4567/api/{apiVersion} -u admin -p changeit
