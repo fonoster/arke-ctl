@@ -51,13 +51,13 @@ All you need to add is the path to the property and the filter operators. For ex
 
 ```
 # This returns all the Numbers in Gateway 'gweef506'
-./rctl get numbers --filter "@.metadata.gwRef=='gweef506'"    
+rctl get numbers --filter "@.metadata.gwRef=='gweef506'"    
 ```
 
 If you need help, just run `rctl --help` from the terminal window.
 
 ```bash
-$ ./rctl -h
+$ rctl -h
 usage: rctl [-h] COMMAND ...
 
 rctl controls the Routr server
