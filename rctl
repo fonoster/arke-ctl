@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-export ROUTR_WEBAPP='./libs/webapp'
-java -Dfile.encoding=UTF-8 -cp libs/routr-ctl-all.jar -Dcom.sun.net.ssl.checkRevocation=true io.routr.ctl.Main ${@}

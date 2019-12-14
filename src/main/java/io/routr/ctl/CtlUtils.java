@@ -1,5 +1,7 @@
 package io.routr.ctl;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -165,6 +167,14 @@ public class CtlUtils {
     private void errorHandling(HttpResponse response) {
         if (response.getStatus() == 404) {
             out.println("Invalid api path");
+            exit(1);
+        }
+
+        if (response.getStatus() == 400) {
+            Gson gson = new Gson();
+            JsonObject jo = gson.fromJson(response.getBody() + "", JsonObject.class);
+            String message = jo.get("message").getAsString();
+            out.println(message);
             exit(1);
         }
 

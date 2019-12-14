@@ -1,11 +1,9 @@
 {
   "name": "routr-ctl",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Command-Line Interface for Routr",
-  "main": "index.js",
   "scripts": {
     "build": "gradle build",
-    "pack": "sh pack.sh",
     "test": "echo no-op"
   },
   "repository": {

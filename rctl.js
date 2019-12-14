@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-const shell = require("shelljs")
-const args = process.argv.slice(2, process.argv.length).join().replace(/,/g, ' ')
-const cmd = "java -Dfile.encoding=UTF-8 -cp " + __dirname + "/libs/routr-ctl-all.jar -Dcom.sun.net.ssl.checkRevocation=true io.routr.ctl.Main " + args
-process.env.ROUTR_WEBAPP=__dirname + '/libs/webapp'
+const shell = require('shelljs')
+const scapedArgs = process.argv.map(arg => arg = encodeURI(arg).replace(/'/g, "\\'"))
+const args = scapedArgs.slice(2, process.argv.length).join().replace(/,/g, ' ')
+const cmd = `java -Dfile.encoding=UTF-8 -cp ${__dirname}/libs/routr-ctl-all.jar -Dcom.sun.net.ssl.checkRevocation=true io.routr.ctl.Main ${args}`
+process.env.ROUTR_WEBAPP=`${__dirname}/libs/webapp`
 shell.exec(cmd)
