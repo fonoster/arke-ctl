@@ -19,7 +19,7 @@ class CmdSystem {
 
     CmdSystem(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser sys = subparsers.addParser("system").aliases("sys").help("shows system information");
-        sys.addArgument("subcommand").metavar("subcommand").choices("status", "info", "stop").help("system actions");
+        sys.addArgument("subcommand").metavar("subcommand").choices("status", "info", "stop", "restart").help("system actions");
         sys.addArgument("--now").dest("now").action(Arguments.storeTrue()).setDefault(false).help("use with `stop` to shutdown the server immediately");
 
         sys.epilog(String.join(
@@ -30,7 +30,8 @@ class CmdSystem {
             "  # Shows the current system status",
             "  $ rctl sys status\n",
             "  # Stops the system",
-            "  $ rctl sys stop --now"
+            "  $ rctl sys stop --now",
+            "  $ rctl sys restart"
         ));
 
         CmdSystem.ctlUtils = ctlUtils;
@@ -43,6 +44,14 @@ class CmdSystem {
                     ctlUtils.postWithToken("system/status/down", null, "now=true");
                 } else {
                     ctlUtils.postWithToken("system/status/down", null, null);
+                }
+                out.println("Done.");
+                break;
+            case "restart":
+                if (nowFlag) {
+                    ctlUtils.postWithToken("system/status/restarting", null, "now=true");
+                } else {
+                    ctlUtils.postWithToken("system/status/restarting", null, null);
                 }
                 out.println("Done.");
                 break;
