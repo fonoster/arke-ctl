@@ -38,16 +38,14 @@ class CmdProxy {
         // Temporary solution to disabl those anoying log messages
         java.lang.System.setProperty("org.eclipse.jetty.LEVEL", "ERROR");
         org.apache.log4j.BasicConfigurator.configure(new org.apache.log4j.varia.NullAppender());
-        Subparser proxy = subparsers.addParser("proxy").help("run a proxy to the server (alpha)");
+        Subparser proxy = subparsers.addParser("proxy").help("run a proxy to the server (beta)");
         proxy.addArgument("-p", "--port").type(Integer.class).setDefault(8000).help("The port on which to run the proxy");
     }
 
     void run(String apiUrl, String token, int port) throws Exception {
         // Create Server
     		Server server = new Server(port);
-
         URL proxyToURL = new URI(apiUrl).toURL();
-
         String proxyTo = proxyToURL.getProtocol() + "://" + proxyToURL.getHost();
 
         if (proxyToURL.getPort() != -1) {
@@ -84,7 +82,7 @@ class CmdProxy {
         out.println(ANSI_GREEN + "Serving Routr Console" + ANSI_RESET);
         out.println("\nYou can now view the " + ANSI_BOLD + "console" + ANSI_RESET + " in the browser.\n");
         out.println(ANSI_BOLD + "  URL\t" + ANSI_RESET + url);
-        out.println("\nKeep in mind that this software is not production ready.");
+        out.println("\nThis is currently a beta software.");
         out.println("All " + ANSI_BLUE + "feedback" + ANSI_RESET + " is greatly appreciated!");
 
         try {

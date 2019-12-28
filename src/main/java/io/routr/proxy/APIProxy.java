@@ -22,11 +22,8 @@ public class APIProxy extends org.eclipse.jetty.proxy.ProxyServlet.Transparent {
 
         if (apiKeyName != null) {
             String fragment = apiKeyName + "=" + getInitParameter("apiKeyValue");
-
             String queryString = request.getQueryString();
-
             rewrittenURI += (queryString == null ? "?" : "&") + fragment;
-
             rewrittenURI = URI.create(rewrittenURI).normalize().toString();
         }
 
