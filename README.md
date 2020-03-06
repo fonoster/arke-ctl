@@ -57,7 +57,7 @@ rctl get numbers --filter "@.metadata.gwRef=='gweef506'"
 If you need help, just run `rctl --help` from the terminal window.
 
 ```bash
-$ rctl -h
+$ rctl --help
 usage: rctl [-h] COMMAND ...
 
 rctl controls the Routr server
@@ -73,7 +73,8 @@ Basic Commands:
     delete (del)         delete an existing resource(s)
     locate (loc)         locate sip device(s)
     registry (reg)       shows gateways registrations
-    system (sys)         display a list of resources
+    system (sys)         shows system information
+    proxy                run a proxy to the server (alpha)
     login                sets connection info
 
 More information at https://routr.io
