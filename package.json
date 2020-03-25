@@ -1,6 +1,6 @@
 {
   "name": "routr-ctl",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Command-Line Interface for Routr",
   "scripts": {
     "build": "gradle build && npm i && mkdir -p libs/webapp && rm -rf libs/webapp/* && cp -a node_modules/routr-ui/build/* libs/webapp",
