@@ -45,7 +45,7 @@ class CmdSystem {
                 } else {
                     ctlUtils.postWithToken("system/status/down", null, null);
                 }
-                out.println("Done.");
+                out.println("Done");
                 break;
             case "restart":
                 if (nowFlag) {
@@ -53,7 +53,7 @@ class CmdSystem {
                 } else {
                     ctlUtils.postWithToken("system/status/restarting", null, null);
                 }
-                out.println("Done.");
+                out.println("Done");
                 break;
             case "status": {
                 HttpResponse response = ctlUtils.getWithToken("system/status", null);

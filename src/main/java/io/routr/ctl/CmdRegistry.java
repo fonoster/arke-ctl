@@ -57,7 +57,7 @@ class CmdRegistry {
             grid = Border.DOUBLE_LINE.apply(grid);
             Util.print(grid);
         } else {
-            out.print("Not registered to any provider at this time.");
+            out.println("Not registered to any provider at this time");
         }
     }
 }

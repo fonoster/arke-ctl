@@ -35,7 +35,7 @@ class CmdDelete {
 
     void run(String resource, String ref, String filter) {
         if (ref.isEmpty() && filter.isEmpty()) {
-            out.print("You must indicate a 'REF' or --filter");
+            out.println("You must indicate a 'REF' or --filter");
             System.exit(1);
         }
 

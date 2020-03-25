@@ -51,7 +51,7 @@ class CmdLocate {
             grid = Border.DOUBLE_LINE.apply(grid);
             Util.print(grid);
         } else {
-            out.print("No registered devices at this time.");
+            out.println("No registered devices at this time");
         }
     }
 }

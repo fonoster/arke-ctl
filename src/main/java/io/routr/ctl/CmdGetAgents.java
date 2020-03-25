@@ -67,7 +67,7 @@ class CmdGetAgents {
             grid = Border.DOUBLE_LINE.apply(grid);
             Util.print(grid);
         } else {
-            out.print("Resource/s not found.");
+            out.println("Resource/s not found");
         }
     }
 }

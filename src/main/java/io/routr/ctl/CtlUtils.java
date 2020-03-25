@@ -72,12 +72,17 @@ public class CtlUtils {
         try {
             response = Unirest.get(apiUrl + "/credentials" ).basicAuth(username, password).asString();
         } catch (UnirestException ex) {
-            out.println("Unable to perform request. Ensure server is up");
+            out.println("Unable to perform request. Ensure server is up!");
             exit(1);
         }
 
         if (response.getStatus() == 401) {
             out.println("Unable to retrieve token. Please verify your credentials");
+            exit(1);
+        }
+
+        if (response.getStatus() == 404) {
+            out.println("Invalid api path");
             exit(1);
         }
 
@@ -95,7 +100,7 @@ public class CtlUtils {
             if (resource.equals("system/status")) {
                 out.println("Down");
             } else {
-                out.println("Unable to perform request. Ensure server is up");
+                out.println("Unable to perform request. Ensure server is up!");
             }
            exit(1);
         }
@@ -120,7 +125,7 @@ public class CtlUtils {
             if (resource.equals("system/status/down")) {
                 out.println("Down");
             } else {
-                out.println("Unable to perform request. Ensure server is up");
+                out.println("Unable to perform request. Ensure server is up!");
             }
             exit(1);
         }
@@ -140,7 +145,7 @@ public class CtlUtils {
                 response = Unirest.put(apiUrl + "/" + resource + "?token=" + accessToken).asString();
             }
         } catch (UnirestException ex) {
-            out.println("Unable to perform request. Ensure server is up");
+            out.println("Unable to perform request. Ensure server is up!");
             exit(1);
         }
 
@@ -155,7 +160,7 @@ public class CtlUtils {
         try {
             response = Unirest.delete(apiUrl + "/" + resource + "?token=" + accessToken + "&" + params).asString();
         } catch (UnirestException ex) {
-            out.println("Unable to perform request. Ensure server is up");
+            out.println("Unable to perform request. Ensure server is up!");
             exit(1);
         }
 
@@ -166,7 +171,7 @@ public class CtlUtils {
 
     private void errorHandling(HttpResponse response) {
         if (response.getStatus() == 404) {
-            out.println("Invalid api path");
+            out.println("Resource/s not found");
             exit(1);
         }
 

@@ -82,7 +82,7 @@ class CmdProxy {
         out.println(ANSI_GREEN + "Serving Routr Console" + ANSI_RESET);
         out.println("\nYou can now view the " + ANSI_BOLD + "console" + ANSI_RESET + " in the browser.\n");
         out.println(ANSI_BOLD + "  URL\t" + ANSI_RESET + url);
-        out.println("\nThis is currently a beta software.");
+        out.println("\nThis is currently a beta software");
         out.println("All " + ANSI_BLUE + "feedback" + ANSI_RESET + " is greatly appreciated!");
 
         try {

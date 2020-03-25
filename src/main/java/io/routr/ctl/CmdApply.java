@@ -39,7 +39,7 @@ class CmdApply {
         String data = "";
 
         if (path.isEmpty()) {
-            out.print("You must indicate the path to the resource");
+            out.println("You must indicate the path to the resource");
             System.exit(1);
         }
 
@@ -47,11 +47,11 @@ class CmdApply {
             data = new FileUtils().getJsonString(path);
         } catch(Exception ex) {
             if (ex instanceof NoSuchFileException) {
-                out.print("Please ensure file '" + ex.getMessage() + "' exist and has proper permissions");
+                out.println("Please ensure file '" + ex.getMessage() + "' exist and has proper permissions");
             } else if (ex instanceof NullPointerException) {
-                out.print("You must indicate a file :(");
+                out.println("You must indicate a file :(");
             } else {
-                out.print("Unexpected Exception: " + ex.getMessage());
+                out.println("Unexpected Exception: " + ex.getMessage());
             }
             System.exit(1);
         }
