@@ -33,7 +33,11 @@ public class Main {
 
         Subparsers subparsers = parser.addSubparsers().title("Basic Commands").metavar("COMMAND");
 
-        if (args.length > 0 && !args[0].equals("login")) {
+        if (args.length > 0 &&
+            !args[0].equals("-h") &&
+            !args[0].equals("--help") &&
+            !args[0].equals("login")) {
+
             if (!new File(CONFIG_PATH).exists()) {
                 out.println(INVALID_ACCESS_TOKEN);
                 exit(1);
