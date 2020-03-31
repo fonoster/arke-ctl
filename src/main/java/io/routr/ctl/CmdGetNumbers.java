@@ -49,15 +49,19 @@ class CmdGetNumbers {
             String aorLink = location.get("aorLink").getAsString();
             String objRef = metadata.get("ref").getAsString();
             String gwRef = metadata.get("gwRef").getAsString();
-            String city = geoInfo.get("city").getAsString();
+            String city = "";
+
+            if(geoInfo != null) {
+                city = geoInfo.get("city").getAsString();
+            }
 
             if (ref.isEmpty() || ref.equals(objRef)) {
                 textTable.nextRow()
-                        .nextCell().addLine(objRef)
-                        .nextCell().addLine(gwRef)
-                        .nextCell().addLine(telUrl)
-                        .nextCell().addLine(aorLink)
-                        .nextCell().addLine(city);
+                    .nextCell().addLine(objRef)
+                    .nextCell().addLine(gwRef)
+                    .nextCell().addLine(telUrl)
+                    .nextCell().addLine(aorLink)
+                    .nextCell().addLine(city);
                 cnt++;
             }
         }
