@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "shelljs": "^0.8.3",
-    "routr-ui": "1.0.2"
+    "routr-ui": "1.0.3"
   },
   "preferGlobal": true,
   "engines": {
