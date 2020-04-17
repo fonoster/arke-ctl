@@ -19,7 +19,8 @@ class CmdSystem {
 
     CmdSystem(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser sys = subparsers.addParser("system").aliases("sys").help("shows system information");
-        sys.addArgument("subcommand").metavar("subcommand").choices("status", "info", "stop", "restart").help("system actions");
+        sys.addArgument("subcommand").metavar("subcommand").choices("status", "info", "stop", "restart",
+        "logs").help("system actions: status, stop, restart, info, logs");
         sys.addArgument("--now").dest("now").action(Arguments.storeTrue()).setDefault(false).help("use with `stop` to shutdown the server immediately");
 
         sys.epilog(String.join(
@@ -27,7 +28,9 @@ class CmdSystem {
             "Examples:",
             "  # Shows system information like version and apiPath",
             "  $ rctl system info\n",
-            "  # Shows the current system status",
+            "  # Dumps all the available system logs",
+            "  $ rctl system logs\n",
+            "  # Displays the current system status",
             "  $ rctl sys status\n",
             "  # Stops the system",
             "  $ rctl sys stop --now",
@@ -65,7 +68,8 @@ class CmdSystem {
             case "info": {
                 HttpResponse response = ctlUtils.getWithToken("system/info", null);
                 Gson gson = new Gson();
-                JsonElement obj = gson.fromJson(response.getBody().toString(), JsonElement.class).getAsJsonObject();
+                JsonElement el = gson.fromJson(response.getBody().toString(), JsonElement.class).getAsJsonObject();
+                JsonElement obj = el.getAsJsonObject().get("data");
 
                 out.println("[System info]");
                 out.println("Server version: " + obj.getAsJsonObject().get("version").getAsString());
@@ -85,6 +89,16 @@ class CmdSystem {
                     }
                     out.println(var + "=" + value);
                 }
+                break;
+            }
+            case "logs": {
+                HttpResponse response = ctlUtils.getWithToken("system/logs", null);
+                Gson gson = new Gson();
+                JsonElement el = gson.fromJson(response.getBody().toString(), JsonElement.class).getAsJsonObject();
+                JsonElement obj = el.getAsJsonObject().get("data");
+
+                out.println("[System logs]");
+                out.println(obj.getAsString());
                 break;
             }
         }

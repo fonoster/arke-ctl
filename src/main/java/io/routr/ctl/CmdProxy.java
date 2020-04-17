@@ -35,13 +35,14 @@ class CmdProxy {
     private static String ANSI_RESET = "\u001B[0m";
 
     CmdProxy(Subparsers subparsers) {
-        // Temporary solution to disabl those anoying log messages
+        // Experimental solution to disable those anoying log messages
         java.lang.System.setProperty("org.eclipse.jetty.LEVEL", "ERROR");
         org.apache.log4j.BasicConfigurator.configure(new org.apache.log4j.varia.NullAppender());
         Subparser proxy = subparsers.addParser("proxy").help("run a proxy to the server (beta)");
         proxy.addArgument("-p", "--port").type(Integer.class).setDefault(8000).help("The port on which to run the proxy");
     }
 
+    // TODO: Consider creating a proxy for websocket 
     void run(String apiUrl, String token, int port) throws Exception {
         // Create Server
     		Server server = new Server(port);
@@ -70,14 +71,16 @@ class CmdProxy {
 
     		// Start the server
     		server.start();
-        openBrowser(port);
+        openBrowser(proxyToURL.getHost(), port, token);
     		server.join();
     }
 
-    void openBrowser(int port) {
+    void openBrowser(String host, int port, String token) {
         CmdProxy.clrscr();
 
-        String url = "http://localhost:" + port;
+        String url = "http://localhost:" + port
+          + "?apiHost=" + host
+          + "&token=" + token;
 
         out.println(ANSI_GREEN + "Serving Routr Console" + ANSI_RESET);
         out.println("\nYou can now view the " + ANSI_BOLD + "console" + ANSI_RESET + " in the browser.\n");
