@@ -20,7 +20,7 @@ class CmdApply {
 
     CmdApply(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser apply = subparsers.addParser("apply").help("apply changes over existing resource(s)");
-        apply.addArgument("-f").metavar("FILE").help("path to yaml file with a resources(s)");
+        apply.addArgument("-f", "--file").metavar("FILE").help("path to yaml file with a resources(s)");
 
         apply.epilog(String.join(
             System.getProperty("line.separator"),
@@ -49,7 +49,7 @@ class CmdApply {
             if (ex instanceof NoSuchFileException) {
                 out.println("Please ensure file '" + ex.getMessage() + "' exist and has proper permissions");
             } else if (ex instanceof NullPointerException) {
-                out.println("You must indicate a file :(");
+                out.println("You must indicate a file");
             } else {
                 out.println("Unexpected Exception: " + ex.getMessage());
             }

@@ -47,7 +47,7 @@ class CmdCreate {
             if (ex instanceof NoSuchFileException) {
                 out.println("Please ensure file '" + ex.getMessage() + "' exist and has proper permissions");
             } else if (ex instanceof NullPointerException) {
-                out.println("You must indicate a file :(");
+                out.println("You must indicate a file");
             } else {
                 out.println("Unexpected Exception: " + ex.getMessage());
             }
