@@ -36,7 +36,8 @@ public class Main {
         if (args.length > 0 &&
             !args[0].equals("-h") &&
             !args[0].equals("--help") &&
-            !args[0].equals("login")) {
+            !args[0].equals("login") &&
+            !args[0].equals("logout")) {
 
             if (!new File(CONFIG_PATH).exists()) {
                 out.println(INVALID_ACCESS_TOKEN);
@@ -60,6 +61,7 @@ public class Main {
         CmdSystem cmdSystem = new CmdSystem(subparsers, ctlUtils);
         CmdProxy cmdProxy = new CmdProxy(subparsers);
         CmdLogin cmdLogin = new CmdLogin(subparsers);
+        CmdLogout cmdLogout = new CmdLogout(subparsers);
 
         try {
             // Variable 'args' is a global coming from the entry point script
@@ -94,6 +96,9 @@ public class Main {
                     break;
                 case "login":
                     cmdLogin.run(res.get("apiUrl"), res.get("u"), res.get("p"));
+                    break;
+                case "logout":
+                    cmdLogout.run();
                     break;
                 case "proxy":
                     cmdProxy.run(apiUrl, accessToken, res.get("port"));
