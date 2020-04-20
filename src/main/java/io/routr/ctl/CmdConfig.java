@@ -21,9 +21,9 @@ class CmdConfig {
         config.epilog(String.join(
             System.getProperty("line.separator"),
             "`Examples:",
-            "  # Update configuration from file or STDIN",
+            "  # Update configuration from a file",
             "  $ rctl config apply -f config.yaml\n",
-            "  # Shows current merged configuration\n",
+            "  # Shows current merged configuration",
             "  $ rctl config describe\n"
         ));
         this.ctlUtils = ctlUtils;
@@ -49,10 +49,9 @@ class CmdConfig {
                     System.exit(1);
                 }
             } else {
-                Scanner sc = new Scanner(System.in);
-                while(sc.hasNextLine()) {
+               Scanner sc = new Scanner(System.in);
+               while(sc.hasNextLine()) {
                    data += sc.nextLine();
-                   out.println(data);
                }
             }
 

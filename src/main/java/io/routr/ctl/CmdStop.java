@@ -10,7 +10,7 @@ class CmdStop {
     private static CtlUtils ctlUtils;
 
     CmdStop(Subparsers subparsers, CtlUtils ctlUtils) {
-        Subparser sys = subparsers.addParser("stop").help("stops engine");
+        Subparser sys = subparsers.addParser("stop").help("stops the engine");
         sys.addArgument("--now").dest("now").action(Arguments.storeTrue()).setDefault(false).help("stops engine immediately");
         this.ctlUtils = ctlUtils;
     }

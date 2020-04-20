@@ -15,7 +15,7 @@ class CmdRestart {
     private static CtlUtils ctlUtils;
 
     CmdRestart(Subparsers subparsers, CtlUtils ctlUtils) {
-        Subparser sys = subparsers.addParser("restart").help("restarts engine");
+        Subparser sys = subparsers.addParser("restart").help("restarts the engine");
         sys.addArgument("--now").dest("now").action(Arguments.storeTrue()).setDefault(false).help("restart server immediately");
         this.ctlUtils = ctlUtils;
     }
