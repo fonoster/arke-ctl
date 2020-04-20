@@ -8,6 +8,8 @@ import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 import net.sourceforge.argparse4j.inf.Subparsers;
+import net.sourceforge.argparse4j.impl.Arguments;
+import java.util.Arrays;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +20,22 @@ import static java.lang.System.out;
 public class Main {
     public final static String CONFIG_PATH = System.getProperty("user.home") + "/.routr-access.json";
     public final static String INVALID_ACCESS_TOKEN = "Unable to find a valid access token. Please login";
+    private final static String[] REGISTERED_COMMAND = {
+      "--help", "-h",  "--version", "-v", "login", "logout", "get", "create",
+      "crea", "delete", "del", "locate", "loc", "registry", "reg", "proxy",
+      "logs", "restart", "stop", "ping", "version", "vers", "config" };
+
+    static private boolean bypassToken(String... args) {
+        String[] commands = {"-h", "--help", "--version", "-v", "login", "logout"};
+
+        if (!Arrays.asList(REGISTERED_COMMAND).contains(args[0])) return true;
+
+        for (String c : commands) {
+            // If not a registered command pass control to parser
+            if (Arrays.asList(args).contains(c)) return true;
+        }
+        return false;
+    }
 
     static public void main(String... args) throws Exception {
         String accessToken = null;
@@ -28,16 +46,15 @@ public class Main {
             .newFor("rctl")
             .build()
             .defaultHelp(true)
-            .description("rctl controls the Routr server")
-            .epilog("More information at https://routr.io");
+            .version("rctl, version " + System.getenv("ROUTR_CTL_VERSION"))
+            .description("A tool for the managment of a Routr instance")
+            .epilog("Run 'rctl COMMAND --help' for more information on a command");
 
-        Subparsers subparsers = parser.addSubparsers().title("Basic Commands").metavar("COMMAND");
+        parser.addArgument("-v", "--version").action(Arguments.version()).help("print version information and quit");
 
-        if (args.length > 0 &&
-            !args[0].equals("-h") &&
-            !args[0].equals("--help") &&
-            !args[0].equals("login") &&
-            !args[0].equals("logout")) {
+        Subparsers subparsers = parser.addSubparsers().title("Commands").metavar("COMMAND");
+
+        if (args.length > 0 && !Main.bypassToken(args)) {
 
             if (!new File(CONFIG_PATH).exists()) {
                 out.println(INVALID_ACCESS_TOKEN);
@@ -58,10 +75,15 @@ public class Main {
         CmdDelete cmdDelete = new CmdDelete(subparsers, ctlUtils);
         CmdLocate cmdLocate = new CmdLocate(subparsers, ctlUtils);
         CmdRegistry cmdRegistry = new CmdRegistry(subparsers, ctlUtils);
-        CmdSystem cmdSystem = new CmdSystem(subparsers, ctlUtils);
         CmdProxy cmdProxy = new CmdProxy(subparsers);
         CmdLogin cmdLogin = new CmdLogin(subparsers);
         CmdLogout cmdLogout = new CmdLogout(subparsers);
+        CmdLogs cmdLogs = new CmdLogs(subparsers, ctlUtils);
+        CmdRestart cmdRestart = new CmdRestart(subparsers, ctlUtils);
+        CmdStop cmdStop = new CmdStop(subparsers, ctlUtils);
+        CmdPing cmdPing = new CmdPing(subparsers, ctlUtils);
+        CmdVersion cmdVersion = new CmdVersion(subparsers, ctlUtils);
+        CmdConfig cmdConfig = new CmdConfig(subparsers, ctlUtils);
 
         try {
             // Variable 'args' is a global coming from the entry point script
@@ -90,9 +112,14 @@ public class Main {
                 case "get":
                     cmdGet.run(res.get("resource"), res.get("REF"), res.get("filter"));
                     break;
-                case "system":
-                case "sys":
-                    cmdSystem.run(res.get("subcommand"), res.get("now"));
+                case "restart":
+                    cmdRestart.run(res.get("now"));
+                    break;
+                case "stop":
+                    cmdStop.run(res.get("now"));
+                    break;
+                case "ping":
+                    cmdPing.run();
                     break;
                 case "login":
                     cmdLogin.run(res.get("apiUrl"), res.get("u"), res.get("p"));
@@ -100,16 +127,27 @@ public class Main {
                 case "logout":
                     cmdLogout.run();
                     break;
+                case "ver":
+                case "version":
+                    cmdVersion.run();
+                    break;
                 case "proxy":
                     cmdProxy.run(apiUrl, accessToken, res.get("port"));
                     break;
+                case "logs":
+                    cmdLogs.run();
+                    break;
+                case "config":
+                    cmdConfig.run(res.get("subcommand"),
+                      res.get("file"),
+                        res.get("full"));
                 default:
                     // This is not possible;
             }
         } catch(ArgumentParserException ex) {
             parser.handleError(ex);
         } catch (UnirestException ex) {
-            System.out.println("Routr server is not running");
+            out.println("Routr server is not running");
             System.exit(0);
         } catch (Exception ex) {
             ex.printStackTrace();

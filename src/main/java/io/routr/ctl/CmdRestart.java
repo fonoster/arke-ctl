@@ -21,11 +21,7 @@ class CmdRestart {
     }
 
     void run(boolean nowFlag) {
-      if (nowFlag) {
-          this.ctlUtils.postWithToken("system/status/restarting", null, "now=true");
-      } else {
-          this.ctlUtils.postWithToken("system/status/restarting", null, null);
-      }
+      this.ctlUtils.postWithToken("system/status/restarting", null, "now=" + nowFlag);
       out.println("Done");
     }
 }

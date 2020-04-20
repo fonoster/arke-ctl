@@ -18,7 +18,7 @@ class CmdCreate {
 
     CmdCreate(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser create = subparsers.addParser("create").aliases("crea").help("creates new resource(s)");
-        create.addArgument("-f").metavar("FILE").help("path to yaml file with a resources(s)");
+        create.addArgument("-f", "--file").metavar("FILE").help("path to yaml file with a resources(s)");
 
         create.epilog(String.join(
             System.getProperty("line.separator"),

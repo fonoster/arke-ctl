@@ -16,11 +16,7 @@ class CmdStop {
     }
 
     void run(boolean nowFlag) {
-      if (nowFlag) {
-          this.ctlUtils.postWithToken("system/status/down", null, "now=true");
-      } else {
-          this.ctlUtils.postWithToken("system/status/down", null, null);
-      }
+      this.ctlUtils.postWithToken("system/status/down", null, "now=" + nowFlag);
       out.println("Done");
     }
 }
