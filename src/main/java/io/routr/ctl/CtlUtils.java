@@ -47,8 +47,8 @@ public class CtlUtils {
             HttpsURLConnection.setDefaultSSLSocketFactory(sslcontext.getSocketFactory());
             SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext, new NoopHostnameVerifier());
             CloseableHttpClient httpclient = HttpClients.custom()
-                    .setSSLSocketFactory(sslsf)
-                    .build();
+                .setSSLSocketFactory(sslsf)
+                .build();
             Unirest.setHttpClient(httpclient);
         } catch (Exception e) {
             e.printStackTrace();
