@@ -47,7 +47,7 @@ public class Main {
             .build()
             .defaultHelp(true)
             .version("rctl, version " + System.getenv("ROUTR_CTL_VERSION"))
-            .description("A tool for the managment of a Routr instance")
+            .description("A tool for the management of a Routr instance")
             .epilog("Run 'rctl COMMAND --help' for more information on a command");
 
         parser.addArgument("-v", "--version").action(Arguments.version()).help("print version information and quit");
