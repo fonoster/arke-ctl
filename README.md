@@ -1,6 +1,6 @@
 # Routr Command-Line Tool [![Build Status][travis-badge]][travis-ci] [![Node Version][node-badge]][npm] [![NPM version][npm-badge]][npm]
 
-The `rctl` is a command line interface for running commands against a Routr server. This overview covers `rctl` syntax, describes the command operations, and provides common examples. For details about each command, including all the supported flags and subcommands, see the `rctl` reference documentation. This tool ships separately from the Routr server.
+The `rctl` is a command-line interface for running commands against a Routr server. This overview covers `rctl` syntax, describes the command operations and provides common examples. For details about each command, including all the supported flags and subcommands, see the reference documentation below. This tool ships separately from the Routr server.
 
 ## Installation
 
@@ -14,7 +14,7 @@ The command-line tool is now globally accessible.
 
 ## Login to a Routr server
 
-To login to a Routr server run the following commands.
+To login to a Routr server, use the login command.
 
 ```bash
 rctl login https://127.0.0.1:4567/api/{apiVersion} -u admin -p changeit
@@ -44,7 +44,7 @@ where `COMMAND`, `subcommand` `REF`, and `flags` are:
 
 - `REF`: Specifies the reference to the resource. References are case-sensitive. For a full list, omit the reference. For example, `$ rctl get agents`.
 
-- `flags`: Specifies optional flags. For example, you can use the --filter to reduce the output of `get` command further.
+- `flags`: Specifies optional flags. For example, you can use the --filter to further reduce the output of the `get` command .
 
 The --filter flag uses [JsonPath](https://github.com/json-path/JsonPath) to perform the filtering. The root is always '$'.
 All you need to add is the path to the property and the filter operators. For example:
@@ -58,14 +58,15 @@ If you need help, just run `rctl --help` from the terminal window.
 
 ```bash
 $ rctl --help
-usage: rctl [-h] COMMAND ...
+usage: rctl [-h] [-v] COMMAND ...
 
-rctl controls the Routr server
+A tool for the management of a Routr instance
 
 named arguments:
   -h, --help             show this help message and exit
+  -v, --version          print version information and quit
 
-Basic Commands:
+Commands:
   COMMAND
     get                  display a list of resources
     create (crea)        creates new resource(s)
@@ -73,11 +74,17 @@ Basic Commands:
     delete (del)         delete an existing resource(s)
     locate (loc)         locate sip device(s)
     registry (reg)       shows gateways registrations
-    system (sys)         shows system information
-    proxy                run a proxy to the server (alpha)
+    proxy                run a proxy to the server (beta)
     login                sets connection info
+    logout               clear session credentials
+    logs                 dumps all the available system logs
+    restart              restarts the engine
+    stop                 stops the engine
+    ping                 checks engine status
+    version (ver)        obtain rctl's version information
+    config               manage routr configuration
 
-More information at https://routr.io
+Run ''rctl COMMAND --help' for more information on a command
 ```
 
 > Important: Some commands (i.e.: create, delete) are not available in the default implementation of the `resources` modules. Only persistent implementations support these commands.
@@ -109,7 +116,7 @@ $ rctl get numbers
 // List all numbers that belong to gateway reference gweef506
 $ rctl get numbers --filter "@.metadata.ref=='gweef506'"
 
-// List numberby reference
+// List number by reference
 $ rctl get numbers dd50baa4
 
 // List all agents
@@ -151,6 +158,20 @@ $ rctl del agent ag3f77f6
 $ rctl login https://127.0.0.1:4567/api/{apiVersion} -u admin -p changeit
 ```
 
+### Clear out the session credentials
+
+```
+# Clear session credentials
+$ rctl logout
+```
+
+### Launch the Web Console
+
+```
+# The Web Console re-uses the credentials of your Command-Line Tool
+rctl proxy
+```
+
 ### Showing the Registry
 
 ```
@@ -158,7 +179,7 @@ $ rctl login https://127.0.0.1:4567/api/{apiVersion} -u admin -p changeit
 $ rctl registry                                       # Shows only current registrations. You may use `reg` for short
 ```
 
-### Locating Sip Devices
+### Locating SIP Devices
 
 ```
 # Find all sip devices available at the location service
@@ -199,6 +220,55 @@ $ rctl del numbers --filter '@.metadata.gwRef=gweef506'     # Delete Numbers usi
 ```
 $ rctl apply -f asterisk.yaml                         # Create Peer in file asterisk.yaml
 $ rctl apply -f agents-list.yaml                      # Create Agents in file agents-list.yaml
+```
+
+### Dump all available logs
+
+```
+$ rctl logs
+```
+
+### Restart the engine
+
+```
+# To restart the engine immediately use the --now flag
+$ rctl restart --now
+```
+
+### Stop the engine
+
+```
+# To stop the engine immediately use the --now flag
+$ rctl restart --now
+```
+
+### Check the engine status
+
+```
+# To stop the engine immediately use the --now flag
+$ rctl ping
+```
+
+### Display version information
+
+```
+$ rctl version
+```
+
+### Display version information
+
+```
+$ rctl ver
+```
+
+### Manage general configuration
+
+```
+# To update configuration use the apply subommand
+$ rctl config apply -f /path/to/config.yml
+
+# To see the configuration use the describe subcommand
+$ rctl config describe --full
 ```
 
 ## Bugs and Feedback
