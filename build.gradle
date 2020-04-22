@@ -7,6 +7,7 @@ sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
 dependencies {
+    compile "javax:javaee-api:7.0"
     compile "com.mashape.unirest:unirest-java:1.4.9"
     compile "net.sourceforge.argparse4j:argparse4j:0.8.1"
     compile "com.github.steveash.itxttbl:inamik-text-tables:0.1"
@@ -14,12 +15,14 @@ dependencies {
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.8.3"
     compile "com.fasterxml.jackson.core:jackson-databind:2.8.6"
     compile "junit:junit:4.+"
-    compile "org.eclipse.jetty:jetty-webapp:9.4.11.v20180605"
-    compile "org.eclipse.jetty:jetty-proxy:9.4.11.v20180605"
+    compile "org.eclipse.jetty.websocket:javax-websocket-server-impl:9.4.28.v20200408"
+    compile "org.eclipse.jetty:jetty-webapp:9.4.28.v20200408"
+    compile "org.eclipse.jetty:jetty-proxy:9.4.28.v20200408"
     compile "log4j:log4j:1.2.17"
     compile "org.apache.logging.log4j:log4j-1.2-api:2.11.0"
     compile "org.apache.logging.log4j:log4j-api:2.11.0"
     compile "org.apache.logging.log4j:log4j-core:2.11.0"
+    compile 'org.apache.commons:commons-lang3:3.10'
     compile "org.slf4j:slf4j-api:1.7.25"
     compile "org.slf4j:slf4j-nop:1.7.25"
 }
@@ -30,6 +33,12 @@ repositories {
 
 tasks.withType(Jar) {
     destinationDir = file("$rootDir/libs")
+}
+
+jar {
+    manifest {
+        attributes 'Multi-Release': 'true'
+    }
 }
 
 apply plugin:'application'
