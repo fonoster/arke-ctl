@@ -252,12 +252,6 @@ $ rctl ping
 ### Display version information
 
 ```
-$ rctl version
-```
-
-### Display version information
-
-```
 $ rctl ver
 ```
 
