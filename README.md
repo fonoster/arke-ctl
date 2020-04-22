@@ -84,7 +84,7 @@ Commands:
     version (ver)        obtain rctl's version information
     config               manage routr configuration
 
-Run ''rctl COMMAND --help' for more information on a command
+Run 'rctl COMMAND --help' for more information on a command
 ```
 
 > Important: Some commands (i.e.: create, delete) are not available in the default implementation of the `resources` modules. Only persistent implementations support these commands.
