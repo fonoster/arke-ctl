@@ -3,7 +3,7 @@ const CONFIG_PATH=`${require('os').homedir()}/.routr-access.json`
 const shell = require('shelljs')
 const scapedArgs = process.argv.map(arg => arg = encodeURI(arg).replace(/'/g, "\\'"))
 const args = scapedArgs.slice(2, process.argv.length).join().replace(/,/g, ' ')
-const cmd = `java -Dlog4j.configurationFile=log4j2.yml -Dfile.encoding=UTF-8 -cp ${__dirname}/libs/routr-ctl-all.jar -Dcom.sun.net.ssl.checkRevocation=true io.routr.ctl.Main ${args}`
+const cmd = `java -Dlog4j.configurationFile=${__dirname}/log4j2.yml -Dfile.encoding=UTF-8 -cp ${__dirname}/libs/routr-ctl-all.jar -Dcom.sun.net.ssl.checkRevocation=true io.routr.ctl.Main ${args}`
 
 // NOTICE: This overlaps a functionality of the Main method of getting
 // apiUrl and token. This was necessary because there is no apparent way to
