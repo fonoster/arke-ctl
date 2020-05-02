@@ -20,7 +20,7 @@ class CmdApply {
 
     CmdApply(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser apply = subparsers.addParser("apply").help("apply changes over existing resource(s)");
-        apply.addArgument("-f", "--file").metavar("FILE").help("path to yaml file with a resources(s)");
+        apply.addArgument("-f", "--file").metavar("file").help("path to yaml file with a resources(s)");
 
         apply.epilog(String.join(
             System.getProperty("line.separator"),
