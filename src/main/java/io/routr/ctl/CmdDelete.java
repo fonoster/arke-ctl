@@ -16,16 +16,16 @@ class CmdDelete {
     CmdDelete(Subparsers subparsers, CtlUtils ctlUtils) {
         String[] delSubCmds = new String[]{"agent", "agents", "peer", "peers", "domain", "domains", "number", "numbers", "gateway", "gateways"};
         Subparser del = subparsers.addParser("delete").aliases("del").help("delete an existing resource(s)");
-        del.addArgument("resource").metavar("resource").choices(delSubCmds).help("type of resource (ie.: agent, domain, etc)");
-        del.addArgument("REF").nargs("?").help("reference to resource");
-        del.addArgument("--filter").setDefault("").help("apply filter base on resource(s) metadata ");
+        del.addArgument("resource").metavar("type").choices(delSubCmds).help("type of resource (ie.: agent, domain, etc)");
+        del.addArgument("reference").nargs("?").help("reference to resource");
+        del.addArgument("--filter").metavar("filter").setDefault("").help("apply filter base on resource(s) metadata ");
 
         del.epilog(String.join(
             System.getProperty("line.separator"),
             "Examples:",
             "  # Deletes resource type Agent using its reference",
             "  $ rctl delete agent ag2g4s34\n",
-            "  # or use \"del\" alias\n",
+            "  # or use the \"del\" alias\n",
             "  # Deletes resource type Numbers using the its parent Gateway reference",
             "  $ rctl del number --filter \"@.metadata.gwRef=\"gweef506\""
         ));

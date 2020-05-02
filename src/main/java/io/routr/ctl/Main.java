@@ -22,7 +22,7 @@ public class Main {
     public final static String INVALID_ACCESS_TOKEN = "Unable to find a valid access token. Please login";
     private final static String[] REGISTERED_COMMAND = {
       "--help", "-h",  "--version", "-v", "login", "logout", "get", "create",
-      "crea", "delete", "del", "locate", "loc", "registry", "reg", "proxy",
+      "crea", "apply", "delete", "del", "locate", "loc", "registry", "reg", "proxy",
       "logs", "restart", "stop", "ping", "version", "vers", "config" };
 
     static private boolean bypassToken(String... args) {
@@ -100,17 +100,17 @@ public class Main {
                     break;
                 case "create":
                 case "crea":
-                    cmdCreate.run(res.get("f"));
+                    cmdCreate.run(res.get("file"));
                     break;
                 case "apply":
-                    cmdApply.run(res.get("f"));
+                    cmdApply.run(res.get("file"));
                     break;
                 case "delete":
                 case "del":
-                    cmdDelete.run(res.get("resource"), res.get("REF"), res.get("filter"));
+                    cmdDelete.run(res.get("resource"), res.get("reference"), res.get("filter"));
                     break;
                 case "get":
-                    cmdGet.run(res.get("resource"), res.get("REF"), res.get("filter"));
+                    cmdGet.run(res.get("resource"), res.get("reference"), res.get("filter"));
                     break;
                 case "restart":
                     cmdRestart.run(res.get("now"));
@@ -122,7 +122,7 @@ public class Main {
                     cmdPing.run();
                     break;
                 case "login":
-                    cmdLogin.run(res.get("apiUrl"), res.get("u"), res.get("p"));
+                    cmdLogin.run(res.get("apiUrl"), res.get("username"), res.get("password"));
                     break;
                 case "logout":
                     cmdLogout.run();

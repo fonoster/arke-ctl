@@ -15,7 +15,7 @@ class CmdConfig {
         Subparser config = subparsers.addParser("config").help("manage routr configuration");
         config.addArgument("subcommand").metavar("subcommand").choices("apply", "describe")
           .help("config subcommands: apply, describe");
-        config.addArgument("-f", "--file").metavar("FILE").help("path to yaml file with the configuration");
+        config.addArgument("-f", "--file").metavar("file").help("path to yaml file with the configuration");
         config.addArgument("--full").dest("full").action(Arguments.storeTrue()).setDefault(false).help("get merged configuration");
 
         config.epilog(String.join(

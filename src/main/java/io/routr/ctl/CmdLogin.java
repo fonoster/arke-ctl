@@ -13,9 +13,9 @@ class CmdLogin {
 
     CmdLogin(Subparsers subparsers) {
         Subparser login = subparsers.addParser("login").help("sets connection info");
-        login.addArgument("apiUrl").metavar("apiUrl").help("api url");
-        login.addArgument("-u").metavar("USERNAME").help("server's username");
-        login.addArgument("-p").metavar("PASSWORD").help("server's password");
+        login.addArgument("apiUrl").help("api url");
+        login.addArgument("-u", "--username").metavar("username").help("server's username");
+        login.addArgument("-p", "--password").metavar("password").help("server's password");
     }
 
     void run(String apiUrl, String username, String password)  {

@@ -18,14 +18,14 @@ class CmdCreate {
 
     CmdCreate(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser create = subparsers.addParser("create").aliases("crea").help("creates new resource(s)");
-        create.addArgument("-f", "--file").metavar("FILE").help("path to yaml file with a resources(s)");
+        create.addArgument("-f", "--file").metavar("file").help("path to yaml file with a resources(s)");
 
         create.epilog(String.join(
             System.getProperty("line.separator"),
             "`Examples:",
             "  # Creates a new agent from a yaml file",
-            "  $ rctl crea -f agent.yaml\n\n",
-            "  # Creates a set of gateways from a yaml file\n",
+            "  $ rctl crea -f agent.yaml\n",
+            "  # Creates a set of gateways from a yaml file",
             "  $ rctl create -f gws.yaml\n"
         ));
 

@@ -9,10 +9,10 @@ public class CmdGet {
 
     CmdGet(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser get = subparsers.addParser("get").help("display a list of resources");
-        get.addArgument("resource").metavar("resource").choices("agent", "agents", "peer", "peers",
-                "domain", "domains", "number", "numbers", "gateway", "gateways").help("the resource to be listed");
-        get.addArgument("REF").nargs("?").setDefault("").help("reference to resource");
-        get.addArgument("--filter").setDefault("*").help("apply filter base on resource metadata");
+        get.addArgument("resource").metavar("type").choices("agent", "agents", "peer", "peers",
+                "domain", "domains", "number", "numbers", "gateway", "gateways").help("type of resource (ie.: agent, domain, etc)");
+        get.addArgument("reference").nargs("?").setDefault("").help("reference to resource");
+        get.addArgument("--filter").metavar("filter").setDefault("*").help("apply filter base on resource metadata");
         get.epilog(String.join(
             System.getProperty("line.separator"),
             "Examples:",
