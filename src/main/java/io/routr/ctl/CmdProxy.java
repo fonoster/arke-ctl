@@ -18,7 +18,11 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.net.Socket;
 import java.net.URI;
 import java.net.URL;
 import java.awt.Desktop;
@@ -26,6 +30,8 @@ import java.io.IOException;
 import java.lang.InterruptedException;
 import java.awt.HeadlessException;
 import java.net.URISyntaxException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.UnsatisfiedLinkError;
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
@@ -38,6 +44,9 @@ class CmdProxy {
     private static String ANSI_BLUE = "\u001B[36m";
     private static String ANSI_GREEN = "\u001B[32m";
     private static String ANSI_RESET = "\u001B[0m";
+    private static Server server;
+    private static URL proxyToURL;
+    private static ServerConnector connector;
 
     CmdProxy(Subparsers subparsers) {
         // Experimental solution to disable those anoying log messages
@@ -61,8 +70,13 @@ class CmdProxy {
             proxyTo = proxyTo + ":" + proxyToURL.getPort();
         }
 
+        CmdProxy.connector = connector;
+        CmdProxy.proxyToURL = proxyToURL;
+        CmdProxy.server = server;
+
         // Setting Proxy Servlet
         ServletContextHandler sch = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        sch.setErrorHandler(new ErrorHandler());
 
         ServletHolder proxyServlet = new ServletHolder(io.routr.proxy.APIProxy.class);
         proxyServlet.setInitParameter("apiKeyName", "token");
@@ -88,9 +102,26 @@ class CmdProxy {
         sch.addServlet(wsHolder, "/api/v1beta1/system/logs-ws"); // WARNING: Harcoded apiversion
         server.setHandler(sch);
 
-    		// Start the server
-    		server.start();
+        // Start the server
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run () {
+                try {
+                    boolean isRemoteAvailable = CmdProxy.hostAvailabilityCheck(proxyToURL.getHost(),
+                    proxyToURL.getPort());
+                    if (isRemoteAvailable && !connector.isRunning()) {
+                        server.addConnector(connector);
+                        connector.start();
+                    }
+                } catch(Exception ex) {
+                    /* ignore */
+                }
+            }
+        }, 5 * 1000, 5 * 1000);
+
         openBrowser(proxyToURL.getHost(), port);
+    		server.start();
     		server.join();
     }
 
@@ -108,12 +139,38 @@ class CmdProxy {
             URI oURL = new URI(url);
             desktop.browse(oURL);
         } catch (UnsatisfiedLinkError | HeadlessException | URISyntaxException | IOException e) {
-            // Simply ignore
+            /* ignore */
         }
     }
 
     public static void clrscr() {
         out.print("\033[H\033[2J");
         out.flush();
+    }
+
+    static class ErrorHandler extends ErrorPageErrorHandler {
+        @Override
+        public void handle(String target, org.eclipse.jetty.server.Request
+            baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+            try {
+                if(response.getStatus() == HttpServletResponse.SC_BAD_GATEWAY) {
+                    server.removeConnector(connector);
+                    connector.stop();
+                }
+            } catch(Exception ex) {
+                /* ignore */
+            }
+            return;
+        }
+    }
+
+    public static boolean hostAvailabilityCheck(String address, int port) {
+        try (Socket s = new Socket(address, port)) {
+            return true;
+        } catch (IOException ex) {
+            /* ignore */
+        }
+        return false;
     }
 }

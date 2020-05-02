@@ -5,9 +5,11 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.eclipse.jetty.websocket.api.CloseException;
 import org.eclipse.jetty.websocket.api.Session;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import java.io.IOException;
 import static java.lang.System.out;
 
 @WebSocket
@@ -39,6 +41,9 @@ public class RemoteWSHandler {
 
     @OnWebSocketError
     public void onError(Throwable cause) {
-        LOG.error("error: ", cause);
+      // Simply ignored
+      if (cause instanceof CloseException == false &&
+         cause instanceof IOException == false)
+          LOG.error(cause);
     }
 }

@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URI;
+import java.io.IOException;
 import java.util.concurrent.Future;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -46,9 +47,10 @@ public class WSHandler extends WebSocketAdapter {
 
     @Override
     public void onWebSocketError(Throwable cause) {
-        // Simply ignored if is close exception
-        if (cause instanceof CloseException == false)
-            LOG.error("error: ", cause);
+        // Simply ignored
+        if (cause instanceof CloseException == false &&
+           cause instanceof IOException == false)
+            LOG.error(cause);
     }
 
     @Override
