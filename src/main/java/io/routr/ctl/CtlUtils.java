@@ -179,9 +179,6 @@ public class CtlUtils {
             Gson gson = new Gson();
             JsonObject jo = gson.fromJson(response.getBody() + "", JsonObject.class);
             String message = jo.get("message").getAsString();
-            if (!jo.get("data").equals(null)) {
-                message = jo.get("data").getAsString();
-            }
             out.println(message);
             exit(1);
         }

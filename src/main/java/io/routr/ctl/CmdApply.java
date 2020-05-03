@@ -16,7 +16,6 @@ import static java.lang.System.out;
 class CmdApply {
 
     private static CtlUtils ctlUtils;
-    private Gson gson;
 
     CmdApply(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser apply = subparsers.addParser("apply").help("apply changes over existing resource(s)");
@@ -32,7 +31,6 @@ class CmdApply {
         ));
 
         CmdApply.ctlUtils = ctlUtils;
-        this.gson = new Gson();
     }
 
     void run(String path) {
@@ -56,7 +54,7 @@ class CmdApply {
             System.exit(1);
         }
 
-
+        Gson gson = new Gson();
         JsonElement je = gson.fromJson(data, JsonElement.class);
 
         if(je.isJsonArray()) {
@@ -80,13 +78,16 @@ class CmdApply {
             return;
         }
 
+        Gson gson = new Gson();
         HttpResponse response = ctlUtils.putWithToken(kind + "/" + ref, gson.toJson(je));
-        String message = gson.fromJson(response.getBody().toString(), JsonObject.class).get("message").getAsString();
+        String message = gson.fromJson(response.getBody().toString(),
+          JsonObject.class).get("message").getAsString();
         out.println(message);
     }
 
     // Returns ref base on Object `kind`
     private String getRef(JsonObject object) {
+        Gson gson = new Gson();
         String kind = object.get("kind").getAsString();
 
         if (kind.equalsIgnoreCase("agent")) {
@@ -162,18 +163,17 @@ class CmdApply {
         } else if (kind.equalsIgnoreCase("gateway")) {
             String host = object
                 .get("spec").getAsJsonObject()
-                    .get("regService").getAsJsonObject()
-                        .get("host").getAsString();
+                    .get("host").getAsString();
 
             String response = ctlUtils.getWithToken("gateways",
-                    "filter=@.spec.regService.host=='" + host + "'")
+                    "filter=@.spec.host=='" + host + "'")
                     .getBody().toString();
 
             JsonObject res = gson.fromJson(response, JsonObject.class);
             JsonArray gateways = res.getAsJsonArray("data");
 
             if (gateways.iterator().hasNext()) {
-                return  gateways.iterator()
+                return gateways.iterator()
                     .next().getAsJsonObject()
                         .get("metadata").getAsJsonObject()
                             .get("ref").getAsString();

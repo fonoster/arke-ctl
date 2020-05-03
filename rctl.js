@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const CONFIG_PATH=`${require('os').homedir()}/.routr-access.json`
+const cmdExists = require('command-exists').sync;
 const shell = require('shelljs')
 const scapedArgs = process.argv.map(arg => arg = encodeURI(arg).replace(/'/g, "\\'"))
 const args = scapedArgs.slice(2, process.argv.length).join().replace(/,/g, ' ')
@@ -16,4 +17,9 @@ try {
 process.env.ROUTR_WEBAPP=`${__dirname}/libs/webapp`
 process.env.ROUTR_CTL_VERSION=require('./package.json').version
 
-shell.exec(cmd)
+// Ensure java command is available
+if (cmdExists('java')) {
+    shell.exec(cmd)
+} else {
+    console.log('Could not find a runtime environment. Please setup the JAVA_HOME environment variable')
+}

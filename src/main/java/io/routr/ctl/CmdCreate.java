@@ -14,7 +14,6 @@ import static java.lang.System.out;
 class CmdCreate {
 
     private static CtlUtils ctlUtils;
-    private Gson gson;
 
     CmdCreate(Subparsers subparsers, CtlUtils ctlUtils) {
         Subparser create = subparsers.addParser("create").aliases("crea").help("creates new resource(s)");
@@ -30,7 +29,6 @@ class CmdCreate {
         ));
 
         CmdCreate.ctlUtils = ctlUtils;
-        gson = new Gson();
     }
 
     void run(String path) {
@@ -54,6 +52,7 @@ class CmdCreate {
             System.exit(1);
         }
 
+        Gson gson = new Gson();
         JsonElement je = gson.fromJson(data, JsonElement.class);
 
         if(je.isJsonArray()) {
@@ -68,9 +67,11 @@ class CmdCreate {
     private void create(JsonElement je) {
         JsonObject jo = je.getAsJsonObject();
         String collection = jo.getAsJsonObject().get("kind").getAsString().toLowerCase() + "s";
+        Gson gson = new Gson();
         HttpResponse response = ctlUtils.postWithToken(collection, gson.toJson(je), null);
         JsonObject jObject = gson.fromJson(response.getBody().toString(), JsonObject.class);
-        String message = jObject.get("message").getAsString();
+        String message = gson.fromJson(response.getBody().toString(),
+          JsonObject.class).get("message").getAsString();
         out.println(message);
     }
 }

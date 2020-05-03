@@ -34,8 +34,9 @@
     "rctl": "./rctl.js"
   },
   "dependencies": {
-    "shelljs": "^0.8.3",
-    "routr-ui": "1.0.3"
+    "command-exists": "^1.2.9",
+    "routr-ui": "1.0.3",
+    "shelljs": "^0.8.3"
   },
   "preferGlobal": true,
   "engines": {

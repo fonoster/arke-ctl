@@ -18,7 +18,8 @@ class CmdPing {
     void run() {
       HttpResponse response = this.ctlUtils.getWithToken("system/status", null);
       Gson gson = new Gson();
-      String message = gson.fromJson(response.getBody().toString(), JsonObject.class).get("data").getAsString();
+      String message = gson.fromJson(response.getBody().toString(),
+        JsonObject.class).get("message").getAsString();
       out.println(message);
     }
 }
