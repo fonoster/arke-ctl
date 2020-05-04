@@ -18,7 +18,6 @@ import static java.lang.System.exit;
 import static java.lang.System.out;
 
 public class Main {
-    public final static String CONFIG_PATH = System.getProperty("user.home") + "/.routr-access.json";
     public final static String INVALID_ACCESS_TOKEN = "Unable to find a valid access token. Please login";
     private final static String[] REGISTERED_COMMAND = {
       "--help", "-h",  "--version", "-v", "login", "logout", "get", "create",
@@ -35,6 +34,14 @@ public class Main {
             if (Arrays.asList(args).contains(c)) return true;
         }
         return false;
+    }
+
+    static String getPathToAccessFile() {
+      String rctlData = System.getenv("RCTL_DATA");
+      String dataHome = rctlData == null
+          ? System.getProperty("user.home")
+          : rctlData;
+      return dataHome + "/.routr-access.json";
     }
 
     static public void main(String... args) throws Exception {
@@ -55,13 +62,14 @@ public class Main {
         Subparsers subparsers = parser.addSubparsers().title("Commands").metavar("COMMAND");
 
         if (args.length > 0 && !Main.bypassToken(args)) {
+            String pathToAccessFile = getPathToAccessFile();
 
-            if (!new File(CONFIG_PATH).exists()) {
+            if (!new File(pathToAccessFile).exists()) {
                 out.println(INVALID_ACCESS_TOKEN);
                 exit(1);
             } else {
                 Gson gson = new Gson();
-                String serverInfo = new FileUtils().readFile(CONFIG_PATH);
+                String serverInfo = new FileUtils().readFile(pathToAccessFile);
                 JsonObject jo = gson.fromJson(serverInfo, JsonObject.class);
                 apiUrl = jo.get("apiUrl").getAsString();
                 accessToken = jo.get("token").getAsString();

@@ -26,7 +26,7 @@ class CmdLogin {
         jo.addProperty("token", token);
 
         try {
-            new FileUtils().writeFile(Main.CONFIG_PATH, jo.toString());
+            new FileUtils().writeFile(Main.getPathToAccessFile(), jo.toString());
         } catch (IOException e) {
             e.printStackTrace();
             exit(1);

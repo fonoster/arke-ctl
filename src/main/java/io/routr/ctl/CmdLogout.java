@@ -16,7 +16,7 @@ class CmdLogout {
     }
 
     void run()  {
-        File file = new File(Main.CONFIG_PATH);
+        File file = new File(Main.getPathToAccessFile());
         if (file.exists()) {
             file.delete();
         }

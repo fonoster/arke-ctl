@@ -28,7 +28,8 @@ plugs:
 apps:
   rctl:
     environment:
-      JAVA_HOME: $SNAP/usr/lib/jvm/java-8-openjdk-amd64    
+      JAVA_HOME: $SNAP/usr/lib/jvm/java-8-openjdk-amd64
+      RCTL_DATA: $SNAP_DATA    
     command: rctl
     plugs:
       - home
