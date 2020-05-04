@@ -19,19 +19,11 @@ parts:
     stage-packages:
       - openjdk-8-jre-headless
 
-plugs:
-  rctl-config:
-    interface: personal-files
-    write:
-      - $HOME/.routr-access.json
-
 apps:
   rctl:
     environment:
       JAVA_HOME: $SNAP/usr/lib/jvm/java-8-openjdk-amd64
-      RCTL_DATA: $SNAP_DATA    
+      RCTL_DATA: $SNAP_USER_COMMON
     command: rctl
     plugs:
-      - home
       - network
-      - rctl-config
