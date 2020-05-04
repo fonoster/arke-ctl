@@ -30,8 +30,9 @@
     "url": "https://github.com/fonoster/routr-ctl/issues"
   },
   "homepage": "https://routr.io",
+  "main": "rctl.js",
   "bin": {
-    "rctl": "./rctl.js"
+    "rctl": "rctl.js"
   },
   "dependencies": {
     "command-exists": "^1.2.9",

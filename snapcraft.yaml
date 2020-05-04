@@ -6,7 +6,7 @@ description: rctl is a command line tool for Routr Servers using the API.
 license: MIT
 assumes: [snapd2.42]
 grade: stable
-confinement: devmode
+confinement: strict
 
 parts:
   rctl:
@@ -27,6 +27,8 @@ plugs:
 
 apps:
   rctl:
+    environment:
+      JAVA_HOME: $SNAP/usr/lib/jvm/java-8-openjdk-amd64    
     command: rctl
     plugs:
       - home
