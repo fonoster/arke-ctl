@@ -15,7 +15,7 @@ The command-line tool is now globally accessible.
 Alternatively, you can install the tool in seconds on Linux (Ubuntu and others) with:
 
 ```bash
-snap install rctl
+sudo snap install rctl
 ```
 
 ## Login to a Routr server
