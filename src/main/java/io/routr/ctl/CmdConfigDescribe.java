@@ -18,9 +18,9 @@ class CmdConfigDescribe {
         this.ctlUtils = ctlUtils;
     }
 
-    void run(boolean fullFlag) {
+    void run() {
         Gson gson = new Gson();
-        HttpResponse response = this.ctlUtils.getWithToken("system/config", "full=" + fullFlag);
+        HttpResponse response = this.ctlUtils.getWithToken("system/config", null);
         JsonObject jObject = gson.fromJson(response.getBody().toString(), JsonObject.class);
         String j = gson.toJson(jObject.get("data")).toString();
 

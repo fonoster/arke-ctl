@@ -16,7 +16,6 @@ class CmdConfig {
         config.addArgument("subcommand").metavar("subcommand").choices("apply", "describe")
           .help("config subcommands: apply, describe");
         config.addArgument("-f", "--file").metavar("file").help("path to yaml file with the configuration");
-        config.addArgument("--full").dest("full").action(Arguments.storeTrue()).setDefault(false).help("get merged configuration");
 
         config.epilog(String.join(
             System.getProperty("line.separator"),
@@ -29,7 +28,7 @@ class CmdConfig {
         this.ctlUtils = ctlUtils;
     }
 
-    void run(String subcommand, String path, boolean fullFlag) {
+    void run(String subcommand, String path) {
         if (subcommand.equals("apply")) {
             String data = "";
 
@@ -57,7 +56,7 @@ class CmdConfig {
 
             new CmdConfigApply(this.ctlUtils).run(data);
         } else {
-            new CmdConfigDescribe(this.ctlUtils).run(fullFlag);
+            new CmdConfigDescribe(this.ctlUtils).run();
         }
     }
 }

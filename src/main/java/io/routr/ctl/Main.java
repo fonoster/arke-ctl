@@ -147,8 +147,7 @@ public class Main {
                     break;
                 case "config":
                     cmdConfig.run(res.get("subcommand"),
-                      res.get("file"),
-                        res.get("full"));
+                      res.get("file"));
                 default:
                     // This is not possible;
             }
