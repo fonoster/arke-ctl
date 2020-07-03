@@ -22,7 +22,7 @@ public class Main {
     private final static String[] REGISTERED_COMMAND = {
       "--help", "-h",  "--version", "-v", "login", "logout", "get", "create",
       "crea", "apply", "delete", "del", "locate", "loc", "registry", "reg", "proxy",
-      "logs", "restart", "stop", "ping", "version", "vers", "config" };
+      "logs", "restart", "stop", "ping", "version", "ver", "config" };
 
     static private boolean bypassToken(String... args) {
         String[] commands = {"-h", "--help", "--version", "-v", "login", "logout"};
